@@ -55,7 +55,7 @@ var costumeKeys = ["1","2","3","4","5","6","7","8","9","0"]
 signal spriteVisToggles(keysPressed:Array)
 signal fatfuckingballs
 
-var channel_name = 'onutrem'
+var channel_name = 'luuciiole'
 
 func _ready():
 	Global.main = self
@@ -135,7 +135,9 @@ func _ready():
 	camera.position = origin.position
 
 	VerySimpleTwitch.login_chat_anon(channel_name)
-	VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
+	VerySimpleTwitch.channel_follow_received.connect(received_follow)
+	VerySimpleTwitch.channel_sub_received.connect(received_sub)
+	VerySimpleTwitch.channel_raid_received.connect(received_raid)
 	
 func _process(delta):
 	var hold = origin.get_parent().position.y
@@ -158,8 +160,16 @@ func _process(delta):
 	followShadow()
 
 
-func print_chatter_message(chatter: VSTChatter) -> void:
-	print("Message received from %s: %s" % [chatter.tags.display_name, chatter.message])
+func received_follow() -> void:
+	print("FOLLOW !!!!!")
+
+
+func received_sub() -> void:
+	print("SUB !!!!!")
+
+
+func received_raid() -> void:
+	print("RAID !!!")
 
 
 func followShadow():

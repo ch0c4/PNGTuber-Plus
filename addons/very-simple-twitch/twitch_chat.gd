@@ -4,6 +4,9 @@ class_name VSTChat extends Node
 # TODO: rename to past simple?
 signal Connected(_channel)
 signal OnMessage(chatter: VSTChatter)
+signal OnFollow
+signal OnSub
+signal OnRaid
 
 var _channel: VSTChannel
 
@@ -147,6 +150,9 @@ func handle_message(message: String):
 			if _use_anon_connection:
 				var parsed_tags:VSTIRCTags = VSTParseHelper.parse_tags(parsed_message[0])
 				_channel.id = parsed_tags.user_id
+		"USERNOTICE":
+			handle_subevent(parsed_message)
+
 
 func parse_message_to_chatter(message: PackedStringArray) -> VSTChatter:
 	var chatter = VSTChatter.new()
@@ -163,7 +169,16 @@ func parse_message_to_chatter(message: PackedStringArray) -> VSTChatter:
 
 func handle_privmsg(msg: PackedStringArray):
 	var chatter = parse_message_to_chatter(msg)
+	if chatter.tags.display_name.to_lower() == "wizebot" and chatter.message.contains("follow"):
+		OnFollow.emit()
+
 	OnMessage.emit(chatter)
+
+
+func handle_subevent(msg: PackedStringArray):
+	print(msg)
+	OnSub.emit()
+	OnRaid.emit()
 
 
 func get_emote(emote_id: String, scale: String = "1.0") -> Texture2D:
@@ -192,6 +207,7 @@ func get_emote(emote_id: String, scale: String = "1.0") -> Texture2D:
 			texture.take_over_path(filename)
 		caches[RequestType.EMOTE][cachename] = texture
 	return caches[RequestType.EMOTE][cachename]
+
 
 func get_badge(badge_name: String, badge_level: String, channel_id: String = "_global", scale: String = "1") -> Texture2D:
 	if _use_anon_connection: return
@@ -231,6 +247,7 @@ func get_badge(badge_name: String, badge_level: String, channel_id: String = "_g
 		caches[RequestType.BADGE][channel_id][cachename] = texture
 	return caches[RequestType.BADGE][channel_id][cachename]
 
+
 func get_badge_mapping(channel_id: String = "_global") -> Dictionary:
 	
 	if _use_anon_connection: return {}
@@ -269,6 +286,7 @@ func get_badge_mapping(channel_id: String = "_global") -> Dictionary:
 		return {}
 	return caches[RequestType.BADGE_MAPPING][channel_id]
 
+
 func get_settings():
 	_client_id = VSTSettings.get_setting(VSTSettings.settings.client_id)
 	_twitch_chat_url = VSTSettings.get_setting(VSTSettings.settings.twitch_chat_url)
@@ -276,6 +294,7 @@ func get_settings():
 	_use_cache = VSTSettings.get_setting(VSTSettings.settings.disk_cache)
 	_cache_path = VSTSettings.get_setting(VSTSettings.settings.disk_cache_path)
 	_chat_timeout_ms = VSTSettings.get_setting(VSTSettings.settings.twitch_timeout_ms)
+
 
 # stops chat socket from tts server
 func disconnect_api():

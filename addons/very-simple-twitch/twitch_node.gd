@@ -2,6 +2,9 @@ extends Node
 
 signal token_received(twitch_channel: VSTChannel)
 signal chat_message_received(channel: VSTChatter)
+signal channel_follow_received
+signal channel_sub_received
+signal channel_raid_received
 signal chat_connected(channel_name: String)
 
 var _twitch_api: VSTAPI
@@ -29,6 +32,9 @@ func _start_chat_client():
 		_twitch_chat = VSTChat.new()
 		add_child(_twitch_chat)
 		_twitch_chat.OnMessage.connect(on_chat_message_received)
+		_twitch_chat.OnFollow.connect(on_channel_follow_received)
+		_twitch_chat.OnSub.connect(on_channel_sub_received)
+		_twitch_chat.OnRaid.connect(on_channel_raid_received)
 
 
 func get_token() -> VSTChannel:
@@ -54,6 +60,9 @@ func end_chat_client():
 	if _twitch_chat:
 		_twitch_chat.disconnect_api()
 		_twitch_chat.OnMessage.disconnect(on_chat_message_received)
+		_twitch_chat.OnFollow.disconnect(on_channel_follow_received)
+		_twitch_chat.OnSub.disconnect(on_channel_sub_received)
+		_twitch_chat.OnRaid.disconnect(on_channel_raid_received)
 		remove_child(_twitch_chat)
 		_twitch_chat.queue_free()
 		_twitch_chat = null
@@ -67,5 +76,16 @@ func end_chat_client():
 func send_chat_message(message: String):
 	_twitch_chat.send_message(message)
 
+
 func on_chat_message_received(chatter: VSTChatter):
 	chat_message_received.emit(chatter)
+
+
+func on_channel_follow_received():
+	channel_follow_received.emit()
+
+func on_channel_sub_received():
+	channel_sub_received.emit()
+
+func on_channel_raid_received():
+	channel_raid_received.emit()

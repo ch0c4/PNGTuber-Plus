@@ -14743,5 +14743,5 @@ z_index = -4096
 [connection signal="visibility_changed" from="ReplaceDialog" to="." method="_on_replace_dialog_visibility_changed"]
 [connection signal="file_selected" from="SaveDialog" to="." method="_on_save_dialog_file_selected"]
 [connection signal="file_selected" from="LoadDialog" to="." method="_on_load_dialog_file_selected"]
-[connection signal="bg_key_pressed" from="BackgroundInputCapture" to="." method="bgInputSprite"]
 [connection signal="bg_key_pressed" from="BackgroundInputCapture" to="." method="_on_background_input_capture_bg_key_pressed"]
+[connection signal="bg_key_pressed" from="BackgroundInputCapture" to="." method="bgInputSprite"]
