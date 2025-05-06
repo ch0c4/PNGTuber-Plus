@@ -55,6 +55,8 @@ var costumeKeys = ["1","2","3","4","5","6","7","8","9","0"]
 signal spriteVisToggles(keysPressed:Array)
 signal fatfuckingballs
 
+var channel_name = 'onutrem'
+
 func _ready():
 	Global.main = self
 	Global.fail = $Failed
@@ -131,6 +133,9 @@ func _ready():
 	var s = get_viewport().get_visible_rect().size
 	origin.position = s*0.5
 	camera.position = origin.position
+
+	VerySimpleTwitch.login_chat_anon(channel_name)
+	VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 	
 func _process(delta):
 	var hold = origin.get_parent().position.y
@@ -151,6 +156,11 @@ func _process(delta):
 	fileSystemOpen = isFileSystemOpen()
 	
 	followShadow()
+
+
+func print_chatter_message(chatter: VSTChatter) -> void:
+	print("Message received from %s: %s" % [chatter.tags.display_name, chatter.message])
+
 
 func followShadow():
 	shadow.visible = is_instance_valid(Global.heldSprite)
@@ -509,6 +519,7 @@ func changeCostumeStreamDeck(id: String):
 		"8":changeCostume(8)
 		"9":changeCostume(9)
 		"10":changeCostume(10)
+
 
 func changeCostume(newCostume):
 	costume = newCostume
