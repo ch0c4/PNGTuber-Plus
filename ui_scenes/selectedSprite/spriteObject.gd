@@ -320,6 +320,7 @@ func drag(delta):
 	if dragSpeed == 0:
 		dragger.global_position = wob.global_position
 	else:
+		@warning_ignore("integer_division")
 		dragger.global_position = lerp(dragger.global_position,wob.global_position,1/dragSpeed)
 		dragOrigin.global_position = dragger.global_position
 
@@ -373,9 +374,10 @@ func remakePolygon():
 	grabArea.add_child(outline)
 	
 	remadePolygon = true
-	
-func setClip(toggle):
-	if toggle:
+
+
+func setClip(_toggle):
+	if _toggle:
 		sprite.clip_children = CLIP_CHILDREN_AND_DRAW
 		
 		for node in getAllLinkedSprites():
@@ -385,7 +387,8 @@ func setClip(toggle):
 	else:
 		sprite.clip_children = CLIP_CHILDREN_DISABLED
 		
-	clipped = toggle
+	clipped = _toggle
+
 
 func getAllLinkedSprites():
 	var nodes = get_tree().get_nodes_in_group("saved")
@@ -395,9 +398,11 @@ func getAllLinkedSprites():
 			linkedSprites.append(node)
 	return linkedSprites
 
+
 func visToggle(keys):
 	if keys.has(toggle):
 		$WobbleOrigin/DragOrigin.visible = !$WobbleOrigin/DragOrigin.visible
+
 
 func makeVis():
 	$WobbleOrigin/DragOrigin.visible = true
