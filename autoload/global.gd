@@ -48,6 +48,14 @@ var micResetTime = 180
 
 var updatePusherNode = null
 
+signal update_channel_name
+
+var channel_name: String: 
+	set (value):
+		channel_name = value
+		update_channel_name.emit()
+
+
 var rand = RandomNumberGenerator.new()
 
 func _ready():
@@ -55,6 +63,9 @@ func _ready():
 	
 	if !Saving.settings.has("useStreamDeck"):
 		Saving.settings["useStreamDeck"] = false
+	
+	if Saving.settings.has("channel_name"):
+		Global.channel_name = Saving.settings["channel_name"]
 	
 	if Saving.settings.has("secondsToMicReset"):
 		Global.micResetTime = Saving.settings["secondsToMicReset"]
@@ -78,6 +89,7 @@ func createMicrophone():
 	currentMicrophone = null
 	await get_tree().create_timer(0.25).timeout
 	createMicrophone()
+
 
 func deleteAllMics():
 	for child in get_children():

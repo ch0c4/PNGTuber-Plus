@@ -346,6 +346,7 @@ func _on_delete_pressed():
 	$VisToggle/setToggle/Label.text = "toggle: \"" + Global.heldSprite.toggle +  "\""
 	Global.heldSprite.makeVis()
 
+
 func _on_set_toggle_pressed():
 	$VisToggle/setToggle/Label.text = "toggle: AWAITING INPUT"
 	await Global.main.fatfuckingballs

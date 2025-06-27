@@ -178,6 +178,7 @@ var settings = {
 	"blinkSpeed":1.0,
 	"blinkChance":200,
 	"bounceOnCostumeChange":false,
+	"channel_name": ""
 }
 
 var settingsPath = "user://settings.pngtp"

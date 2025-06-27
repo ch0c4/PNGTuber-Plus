@@ -55,7 +55,7 @@ var costumeKeys = ["1","2","3","4","5","6","7","8","9","0"]
 signal spriteVisToggles(keysPressed:Array)
 signal fatfuckingballs
 
-var channel_name = 'luuciiole'
+
 
 func _ready():
 	Global.main = self
@@ -133,11 +133,12 @@ func _ready():
 	var s = get_viewport().get_visible_rect().size
 	origin.position = s*0.5
 	camera.position = origin.position
-
-	VerySimpleTwitch.login_chat_anon(channel_name)
-	VerySimpleTwitch.channel_follow_received.connect(received_follow)
-	VerySimpleTwitch.channel_sub_received.connect(received_sub)
-	VerySimpleTwitch.channel_raid_received.connect(received_raid)
+	
+	Global.update_channel_name.connect(setup_twitch)
+	
+	if Global.channel_name:
+		setup_twitch()
+		
 	
 func _process(delta):
 	var hold = origin.get_parent().position.y
@@ -160,16 +161,24 @@ func _process(delta):
 	followShadow()
 
 
+func setup_twitch() -> void:
+	pushUpdates.pushUpdate("Channel change to " + Global.channel_name)
+	VerySimpleTwitch.login_chat_anon(Global.channel_name)
+	if not VerySimpleTwitch.channel_follow_received.is_connected(received_follow):
+		VerySimpleTwitch.channel_follow_received.connect(received_follow)
+		VerySimpleTwitch.channel_sub_received.connect(received_sub)
+		VerySimpleTwitch.channel_raid_received.connect(received_raid)
+
 func received_follow() -> void:
-	print("FOLLOW !!!!!")
+	changeCostume(8)
 
 
 func received_sub() -> void:
-	print("SUB !!!!!")
+	changeCostume(10)
 
 
 func received_raid() -> void:
-	print("RAID !!!")
+	changeCostume(9)
 
 
 func followShadow():
