@@ -144,8 +144,6 @@ func handle_message(message: String):
 			#login_attempt.emit(true)
 		"PRIVMSG":
 			handle_privmsg(parsed_message)
-			#handle_command(sender_data, msg[3].split(" ", true, 1))
-			#chat_message.emit(sender_data, msg[3].right(-1))
 		"ROOMSTATE":
 			if _use_anon_connection:
 				var parsed_tags:VSTIRCTags = VSTParseHelper.parse_tags(parsed_message[0])

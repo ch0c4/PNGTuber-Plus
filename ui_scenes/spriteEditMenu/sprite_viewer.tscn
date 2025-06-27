@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://4tbpehro4x5p" path="res://ui_scenes/spriteEditMenu/border.png" id="1_b54o8"]
 [ext_resource type="Script" uid="uid://dmtxdd4flua48" path="res://ui_scenes/spriteEditMenu/sprite_viewer.gd" id="1_hp0e3"]
-[ext_resource type="Shader" uid="uid://gxlf6b1ndul1" path="res://ui_scenes/spriteEditMenu/sprite_viewer.gdshader" id="3_ky0lu"]
+[ext_resource type="Shader" uid="uid://nbka7pt67s42" path="res://ui_scenes/spriteEditMenu/sprite_viewer.gdshader" id="3_ky0lu"]
 [ext_resource type="Texture2D" uid="uid://xxhqegm7rq6n" path="res://ui_scenes/button sprites/add.png" id="3_tjnto"]
 [ext_resource type="Texture2D" uid="uid://bd68uiemrcy5v" path="res://ui_scenes/spriteEditMenu/speaking.png" id="4_shsbk"]
 [ext_resource type="Texture2D" uid="uid://doxw3dy86i2e4" path="res://ui_scenes/spriteEditMenu/blink.png" id="5_ed14x"]
@@ -22,9 +22,9 @@
 [ext_resource type="Texture2D" uid="uid://wjdyw8b0hjag" path="res://ui_scenes/spriteEditMenu/layerButtons/6.png" id="20_7jios"]
 [ext_resource type="Texture2D" uid="uid://b48v7hw1dtc8m" path="res://ui_scenes/spriteEditMenu/layerButtons/select.png" id="20_px0dt"]
 [ext_resource type="Texture2D" uid="uid://b6jdxx3ojc0ay" path="res://ui_scenes/spriteEditMenu/layerButtons/7.png" id="21_ec2bb"]
-[ext_resource type="Texture2D" uid="uid://drcl08v4k3laj" path="res://ui_scenes/spriteEditMenu/layerButtons/8.png" id="22_041y0"]
-[ext_resource type="Texture2D" uid="uid://byyf5t56u3fq8" path="res://ui_scenes/spriteEditMenu/layerButtons/9.png" id="23_wja1u"]
-[ext_resource type="Texture2D" uid="uid://dxxj6jvajo37s" path="res://ui_scenes/spriteEditMenu/layerButtons/10.png" id="24_1m26d"]
+[ext_resource type="Texture2D" uid="uid://bn1x0dn3jo1wx" path="res://ui_scenes/spriteEditMenu/layerButtons/f.png" id="22_jcvhq"]
+[ext_resource type="Texture2D" uid="uid://lrvfvxrfk3ds" path="res://ui_scenes/spriteEditMenu/layerButtons/r.png" id="23_fveqb"]
+[ext_resource type="Texture2D" uid="uid://yuifykrbjddw" path="res://ui_scenes/spriteEditMenu/layerButtons/s.png" id="24_da8lk"]
 [ext_resource type="Texture2D" uid="uid://23rqddatjku3" path="res://ui_scenes/mouse/tooltipBox.png" id="26_8cfad"]
 [ext_resource type="Texture2D" uid="uid://gflmeocxfnrq" path="res://ui_scenes/settings/deleteHotkey.png" id="27_fgu6g"]
 
@@ -14789,7 +14789,7 @@ flat = true
 
 [node name="Layer8" type="Sprite2D" parent="Layers"]
 position = Vector2(121, 926)
-texture = ExtResource("22_041y0")
+texture = ExtResource("22_jcvhq")
 hframes = 2
 
 [node name="layerButton8" type="Button" parent="Layers/Layer8"]
@@ -14802,7 +14802,7 @@ flat = true
 
 [node name="Layer9" type="Sprite2D" parent="Layers"]
 position = Vector2(171, 926)
-texture = ExtResource("23_wja1u")
+texture = ExtResource("23_fveqb")
 hframes = 2
 
 [node name="layerButton9" type="Button" parent="Layers/Layer9"]
@@ -14815,7 +14815,7 @@ flat = true
 
 [node name="Layer10" type="Sprite2D" parent="Layers"]
 position = Vector2(222, 926)
-texture = ExtResource("24_1m26d")
+texture = ExtResource("24_da8lk")
 hframes = 2
 
 [node name="layerButton10" type="Button" parent="Layers/Layer10"]

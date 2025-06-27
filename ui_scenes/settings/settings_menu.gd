@@ -35,7 +35,7 @@ func setvalues():
 	var costumeLabels = [$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton1/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton2/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton3/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton4/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton5/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton6/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton7/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton8/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton9/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton10/Label,]
 	var tag = 1
 	for label in costumeLabels:
-		label.text = "costume " + str(tag) + " key: \"" + Global.main.costumeKeys[tag-1] + "\""
+		label.text = "costume " + _get_costume_number(tag) + " key: \"" + Global.main.costumeKeys[tag-1] + "\""
 		tag += 1
 	
 func _on_color_picker_button_color_changed(color):
@@ -141,7 +141,7 @@ func costumeButtonsPressed(label,id):
 	awaitingCostumeInput = id - 1
 	
 	await Global.main.pressedKey
-	label.text = "costume " + str(id) + " key: \"" + Global.main.costumeKeys[id - 1] + "\""
+	label.text = "costume " + _get_costume_number(id) + " key: \"" + Global.main.costumeKeys[id - 1] + "\""
 	await Global.main.emptiedCapture
 	awaitingCostumeInput = -1
 
@@ -228,9 +228,18 @@ func _process(delta):
 
 func deleteKey(label,id):
 	Global.main.costumeKeys[id-1] = "null"
-	label.text = "costume " + str(id) + " key: \"" + Global.main.costumeKeys[id-1] + "\""
+	label.text = "costume " + _get_costume_number(id) + " key: \"" + Global.main.costumeKeys[id-1] + "\""
 	Global.pushUpdate("Deleted costume hotkey " + str(id) + ".")
 
+
+func _get_costume_number(id) -> String:
+	var costume_number: String
+	match id:
+		8: costume_number = 'follow'
+		9: costume_number = 'raid'
+		10: costume_number = 'sub'
+		_: costume_number = str(id)
+	return costume_number
 
 func _on_delete_1_pressed():
 	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButton1/Label
@@ -281,3 +290,6 @@ func _on_delete_10_pressed():
 	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButton10/Label
 	deleteKey(label,10)
 
+
+func _on_line_edit_text_submitted(new_text: String) -> void:
+	Global.channel_name = new_text
