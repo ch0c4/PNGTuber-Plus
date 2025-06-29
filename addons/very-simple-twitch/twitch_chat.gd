@@ -11,7 +11,7 @@ signal OnRaid
 var _channel: VSTChannel
 
 var _chatClient: WebSocketPeer
-var _hasConnected:= false
+var _hasConnected := false
 
 enum RequestType {
 	EMOTE,
@@ -32,13 +32,13 @@ var _twitch_chat_port: int
 var _use_cache: bool
 var _cache_path: String
 
-var _use_anon_connection:= false
+var _use_anon_connection := false
 
-var _chat_queue : Array[String] = []
-var _last_msg : int = Time.get_ticks_msec()
+var _chat_queue: Array[String] = []
+var _last_msg: int = Time.get_ticks_msec()
 var _chat_timeout_ms: int
 
-const USER_AGENT : String = "User-Agent: VSTC/0.1.0 (Godot Engine)"
+const USER_AGENT: String = "User-Agent: VSTC/0.1.0 (Godot Engine)"
 
 func _process(_delta: float):
 	if !_chatClient:
@@ -127,7 +127,7 @@ func handle_message(message: String):
 
 	match parsed_message[2]:
 		"NOTICE":
-			var info : String = parsed_message[3].right(-1)
+			var info: String = parsed_message[3].right(-1)
 			if (info == "Login authentication failed" || info == "Login unsuccessful"):
 				print_debug("Authentication failed.")
 				#login_attempt.emit(false)
@@ -140,13 +140,13 @@ func handle_message(message: String):
 				#unhandled_message.emit(message, tags)
 		"001":
 			print_debug("Authentication successful.")
-			_chatClient.send_text('ROOMSTATE '+ '#' + _channel.login.to_lower())
+			_chatClient.send_text('ROOMSTATE ' + '#' + _channel.login.to_lower())
 			#login_attempt.emit(true)
 		"PRIVMSG":
 			handle_privmsg(parsed_message)
 		"ROOMSTATE":
 			if _use_anon_connection:
-				var parsed_tags:VSTIRCTags = VSTParseHelper.parse_tags(parsed_message[0])
+				var parsed_tags: VSTIRCTags = VSTParseHelper.parse_tags(parsed_message[0])
 				_channel.id = parsed_tags.user_id
 		"USERNOTICE":
 			handle_subevent(parsed_message)
@@ -173,10 +173,12 @@ func handle_privmsg(msg: PackedStringArray):
 	OnMessage.emit(chatter)
 
 
-func handle_subevent(msg: PackedStringArray):
-	print(msg)
-	OnSub.emit()
-	OnRaid.emit()
+func handle_subevent(msg: PackedStringArray) -> void:
+	var user_notice = VSTParseHelper.parse_user_notice(msg)
+	if user_notice == "sub":
+		OnSub.emit()
+	elif user_notice == "raid":
+		OnRaid.emit()
 
 
 func get_emote(emote_id: String, scale: String = "1.0") -> Texture2D:
@@ -193,8 +195,8 @@ func get_emote(emote_id: String, scale: String = "1.0") -> Texture2D:
 		else:
 			var request: HTTPRequest = HTTPRequest.new()
 			add_child(request)
-			request.request("https://static-cdn.jtvnw.net/emoticons/v1/" + emote_id + "/" + scale, [USER_AGENT,"Accept: */*"])
-			var data = await(request.request_completed)
+			request.request("https://static-cdn.jtvnw.net/emoticons/v1/" + emote_id + "/" + scale, [USER_AGENT, "Accept: */*"])
+			var data = await (request.request_completed)
 			var img: Image = Image.new()
 			img.load_png_from_buffer(data[3])
 			texture = ImageTexture.create_from_image(img)
@@ -217,27 +219,27 @@ func get_badge(badge_name: String, badge_level: String, channel_id: String = "_g
 		caches[RequestType.BADGE][channel_id] = {}
 	if !caches[RequestType.BADGE][channel_id].has(cachename):
 		if _use_cache && FileAccess.file_exists(filename):
-			var img : Image = Image.new()
+			var img: Image = Image.new()
 			img.load_png_from_buffer(FileAccess.get_file_as_bytes(filename))
 			texture = ImageTexture.create_from_image(img)
 			texture.take_over_path(filename)
 		else:
-			var map: Dictionary = caches[RequestType.BADGE_MAPPING].get(channel_id, await(get_badge_mapping(channel_id)))
+			var map: Dictionary = caches[RequestType.BADGE_MAPPING].get(channel_id, await (get_badge_mapping(channel_id)))
 			if !map.is_empty():
 				if map.has(badge_name):
 					var request: HTTPRequest = HTTPRequest.new()
 					add_child(request)
-					request.request(map[badge_name]["versions"][badge_level]["image_url_" + scale + "x"], [USER_AGENT,"Accept: */*"])
-					var data = await(request.request_completed)
+					request.request(map[badge_name]["versions"][badge_level]["image_url_" + scale + "x"], [USER_AGENT, "Accept: */*"])
+					var data = await (request.request_completed)
 					var img: Image = Image.new()
 					img.load_png_from_buffer(data[3])
 					texture = ImageTexture.create_from_image(img)
 					texture.take_over_path(filename)
 					request.queue_free()
 				elif channel_id != "_global":
-					return await(get_badge(badge_name, badge_level, "_global", scale))
+					return await (get_badge(badge_name, badge_level, "_global", scale))
 			elif channel_id != "_global":
-				return await(get_badge(badge_name, badge_level, "_global", scale))
+				return await (get_badge(badge_name, badge_level, "_global", scale))
 			if _use_cache:
 				DirAccess.make_dir_recursive_absolute(filename.get_base_dir())
 				texture.get_image().save_png(filename)
@@ -247,7 +249,6 @@ func get_badge(badge_name: String, badge_level: String, channel_id: String = "_g
 
 
 func get_badge_mapping(channel_id: String = "_global") -> Dictionary:
-	
 	if _use_anon_connection: return {}
 		
 	if caches[RequestType.BADGE_MAPPING].has(channel_id):
@@ -259,14 +260,14 @@ func get_badge_mapping(channel_id: String = "_global") -> Dictionary:
 		if "badge_sets" in cache:
 			return cache["badge_sets"]
 
-	var request : HTTPRequest = HTTPRequest.new()
+	var request: HTTPRequest = HTTPRequest.new()
 	add_child(request)
 	
 	request.request("https://api.twitch.tv/helix/chat/badges" + ("/global" if channel_id == "_global" else "?broadcaster_id=" + _channel.id), [USER_AGENT, "Authorization: Bearer " + _channel.token, "Client-Id:" + _client_id, "Content-Type: application/json"], HTTPClient.METHOD_GET)
 	
-	var reply : Array = await(request.request_completed)
-	var response : Dictionary = JSON.parse_string(reply[3].get_string_from_utf8())
-	var mappings : Dictionary = {}
+	var reply: Array = await (request.request_completed)
+	var response: Dictionary = JSON.parse_string(reply[3].get_string_from_utf8())
+	var mappings: Dictionary = {}
 	for entry in response["data"]:
 		if (!mappings.has(entry["set_id"])):
 			mappings[entry["set_id"]] = {"versions": {}}
@@ -277,7 +278,7 @@ func get_badge_mapping(channel_id: String = "_global") -> Dictionary:
 		caches[RequestType.BADGE_MAPPING][channel_id] = mappings
 		if _use_cache:
 			DirAccess.make_dir_recursive_absolute(filename.get_base_dir())
-			var file : FileAccess = FileAccess.open(filename, FileAccess.WRITE)
+			var file: FileAccess = FileAccess.open(filename, FileAccess.WRITE)
 			file.store_string(JSON.stringify(mappings))
 	else:
 		print("Could not retrieve badge mapping for channel_id " + channel_id + ".")
