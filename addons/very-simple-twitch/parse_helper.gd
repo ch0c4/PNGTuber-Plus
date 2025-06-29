@@ -1,30 +1,30 @@
 class_name VSTParseHelper
 
 # Parse login name from payload substring of twitch irc chat
-static func parse_login(input_string:String) -> String:
+static func parse_login(input_string: String) -> String:
 	return get_substring(input_string, ":", "!")
 
 
 # Parse channel name from payload substring of twitch irc chat
-static func parse_channel(input_string:String) -> String:
+static func parse_channel(input_string: String) -> String:
 	return input_string.trim_prefix("#")
 
 
 # Parse message from payload substring of twitch irc chat
-static func parse_message(input_string:String) -> String:
+static func parse_message(input_string: String) -> String:
 	return input_string.trim_prefix(":").strip_edges()
 
 
-static func parse_tags(input_string:String) -> VSTIRCTags:
+static func parse_tags(input_string: String) -> VSTIRCTags:
 	var irc_tags = VSTIRCTags.new()
-	var tags:PackedStringArray = input_string.split(";")
+	var tags: PackedStringArray = input_string.split(";")
 
 	for i in len(tags):
-		var splitted_tag:PackedStringArray = tags[i].split("=")
+		var splitted_tag: PackedStringArray = tags[i].split("=")
 
 		if splitted_tag.size() <= 1: continue
 
-		match(splitted_tag[0].strip_edges()):
+		match (splitted_tag[0].strip_edges()):
 			"badges":
 				irc_tags.badges = parse_badges(splitted_tag[1].split(","))
 			"color":
@@ -41,7 +41,7 @@ static func parse_tags(input_string:String) -> VSTIRCTags:
 
 # Parse badges from payload substring of twitch irc chat. Returns a dictionary with the badge itself
 # and the position of the badge
-static func parse_badges(input:PackedStringArray) -> Dictionary:
+static func parse_badges(input: PackedStringArray) -> Dictionary:
 	var badges: Dictionary = {}
 	if input.is_empty() || input[0].is_empty(): return badges
 
@@ -54,7 +54,7 @@ static func parse_badges(input:PackedStringArray) -> Dictionary:
 
 # Parse emotes from payload substring of twitch irc chat. Returns a dictionary with the emote
 # itself and the position in the user message in order to replace the text with the image emote
-static func parse_emotes(input:PackedStringArray) -> Dictionary:
+static func parse_emotes(input: PackedStringArray) -> Dictionary:
 	var emotes: Dictionary = {}
 	if input.is_empty() || input[0].is_empty(): return emotes
 	for emote in input:
@@ -64,8 +64,39 @@ static func parse_emotes(input:PackedStringArray) -> Dictionary:
 	return emotes
 
 
+static func parse_user_notice(inputs: PackedStringArray) -> String:
+	var info: PackedStringArray = inputs.get(0).split(";")
+	for i in len(info):
+		var splitted_info: PackedStringArray = info[i].split("=")
 
-static func get_substring(input_string:String, starting_char:String, ending_char:String) -> String:
+		if splitted_info.size() <= 1:
+			continue
+
+		if splitted_info[0].strip_edges() != "msg-id":
+			continue
+
+		var arrayMsgId = [
+			"sub",
+			"resub",
+			"subgift",
+			"anonsubgift",
+			"submysterygift",
+			"giftpaidupgrade",
+			"anongiftpaidupgrade",
+			"communitypayforward",
+			"standardpayforward",
+			"primepaidupgrade"]
+
+		if arrayMsgId.has(splitted_info[i].strip_edges()):
+			return "sub"
+		
+		if splitted_info[i].strip_edges() == "raid":
+			return "raid"
+
+	return "unknown"
+
+
+static func get_substring(input_string: String, starting_char: String, ending_char: String) -> String:
 	var first_index = input_string.find(starting_char)
 	var last_index = input_string.find(ending_char)
 
