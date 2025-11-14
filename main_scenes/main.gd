@@ -169,6 +169,7 @@ func setup_twitch() -> void:
 		VerySimpleTwitch.channel_sub_received.connect(received_sub)
 		VerySimpleTwitch.channel_raid_received.connect(received_raid)
 
+
 func received_follow() -> void:
 	changeCostume(8)
 
