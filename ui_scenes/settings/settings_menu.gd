@@ -135,7 +135,8 @@ func _on_bounce_gravity_value_changed(value):
 	Global.pushUpdate("Bounce gravity value changed.")
 
 
-func costumeButtonsPressed(label,id):
+func costumeButtonsPressed(label, id):
+	print("costumeButtonsPressed - AWAITING_INPUT")
 	label.text = "AWAITING INPUT"
 	await Global.main.emptiedCapture
 	awaitingCostumeInput = id - 1
