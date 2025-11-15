@@ -206,6 +206,9 @@ func setLayerButtons():
 	$Layers/Layer8.frame = 1-a[7]
 	$Layers/Layer9.frame = 1-a[8]
 	$Layers/Layer10.frame = 1-a[9]
+	$Layers/LayerFollow.frame = 1-a[10]
+	$Layers/LayerRaid.frame = 1-a[11]
+	$Layers/LayerSub.frame = 1-a[12]
 	
 	var nodes = get_tree().get_nodes_in_group("saved")
 	for sprite in nodes:
@@ -257,12 +260,14 @@ func _on_layer_button_5_pressed():
 		Global.heldSprite.costumeLayers[4] = 0
 	setLayerButtons()
 
+
 func _on_layer_button_6_pressed():
 	if Global.heldSprite.costumeLayers[5] == 0:
 		Global.heldSprite.costumeLayers[5] = 1
 	else:
 		Global.heldSprite.costumeLayers[5] = 0
 	setLayerButtons()
+
 
 func _on_layer_button_7_pressed():
 	if Global.heldSprite.costumeLayers[6] == 0:
@@ -271,12 +276,14 @@ func _on_layer_button_7_pressed():
 		Global.heldSprite.costumeLayers[6] = 0
 	setLayerButtons()
 
+
 func _on_layer_button_8_pressed():
 	if Global.heldSprite.costumeLayers[7] == 0:
 		Global.heldSprite.costumeLayers[7] = 1
 	else:
 		Global.heldSprite.costumeLayers[7] = 0
 	setLayerButtons()
+
 
 func _on_layer_button_9_pressed():
 	if Global.heldSprite.costumeLayers[8] == 0:
@@ -285,12 +292,38 @@ func _on_layer_button_9_pressed():
 		Global.heldSprite.costumeLayers[8] = 0
 	setLayerButtons()
 
+
 func _on_layer_button_10_pressed():
 	if Global.heldSprite.costumeLayers[9] == 0:
 		Global.heldSprite.costumeLayers[9] = 1
 	else:
 		Global.heldSprite.costumeLayers[9] = 0
 	setLayerButtons()
+
+
+func _on_layer_button_follow_pressed():
+	if Global.heldSprite.costumeLayers[10] == 0:
+		Global.heldSprite.costumeLayers[10] = 1
+	else:
+		Global.heldSprite.costumeLayers[10] = 0
+	setLayerButtons()
+
+
+func _on_layer_button_raid_pressed():
+	if Global.heldSprite.costumeLayers[11] == 0:
+		Global.heldSprite.costumeLayers[11] = 1
+	else:
+		Global.heldSprite.costumeLayers[11] = 0
+	setLayerButtons()
+
+
+func _on_layer_button_sub_pressed():
+	if Global.heldSprite.costumeLayers[12] == 0:
+		Global.heldSprite.costumeLayers[12] = 1
+	else:
+		Global.heldSprite.costumeLayers[12] = 0
+	setLayerButtons()
+
 
 func layerSelected():
 	var newPos = Vector2.ZERO
@@ -315,6 +348,12 @@ func layerSelected():
 			newPos = $Layers/Layer9.position
 		10:
 			newPos = $Layers/Layer10.position
+		11:
+			newPos = $Layers/LayerFollow.position
+		12:
+			newPos = $Layers/LayerRaid.position
+		13:
+			newPos = $Layers/LayerSub.position
 	$Layers/Select.position = newPos
 
 

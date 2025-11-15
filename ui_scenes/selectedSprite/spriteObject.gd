@@ -61,7 +61,7 @@ var rLimitMax = 180
 var rLimitMin = -180
 
 #Layer
-var costumeLayers = [1,1,1,1,1,1,1,1,1,1]
+var costumeLayers = [1,1,1,1,1,1,1,1,1,1,1,1,1]
 
 #Stretch
 var stretchAmount = 0.0
@@ -254,8 +254,10 @@ func animation():
 	if frames > 1:
 		remakePolygon()
 
+
 func setZIndex():
 	sprite.z_index = z
+
 
 func talkBlink():
 	var faded = 0.2 * int(Global.main.editMode)
@@ -263,8 +265,10 @@ func talkBlink():
 	var yes = [0,10,20,30,1,21,12,32,3,13,4,15,26,36,27,38].has(int(value))
 	sprite.self_modulate.a = max(int(yes),faded)
 
+
 func delete():
 	queue_free()
+
 
 func _physics_process(delta):
 	if Global.heldSprite == self:
@@ -275,6 +279,7 @@ func _physics_process(delta):
 			moveSprite(dir)
 	else:
 		set_physics_process(false)
+
 
 func pressingDirection():
 	var dir = Vector2.ZERO
@@ -297,6 +302,7 @@ func moveSprite(dir):
 	
 	position = Vector2(int(position.x),int(position.y))
 
+
 func moveOrigin(dir):
 	if dir != Vector2.ZERO:
 		origTick += 1
@@ -316,6 +322,7 @@ func moveOrigin(dir):
 	sprite.offset = offset
 	grabArea.position = (size*-0.5) + offset
 
+
 func drag(delta):
 	if dragSpeed == 0:
 		dragger.global_position = wob.global_position
@@ -324,9 +331,11 @@ func drag(delta):
 		dragger.global_position = lerp(dragger.global_position,wob.global_position,1/dragSpeed)
 		dragOrigin.global_position = dragger.global_position
 
+
 func wobble():
 	wob.position.x = sin(tick*xFrq)*xAmp
 	wob.position.y = sin(tick*yFrq)*yAmp
+
 
 func rotationalDrag(length,delta):
 	var yvel = (length * rdragStr)
@@ -337,19 +346,23 @@ func rotationalDrag(length,delta):
 	
 	sprite.rotation = lerp_angle(sprite.rotation,deg_to_rad(yvel),0.25)
 
+
 func stretch(length,delta):
 	var yvel = (length * stretchAmount * 0.01)
 	var target = Vector2(1.0-yvel,1.0+yvel)
 	
 	sprite.scale = lerp(sprite.scale,target,0.5)
 
+
 func changeCollision(enable):
 	grabArea.monitorable = enable
 	grabArea.monitorable = enable
 
+
 func changeFrames():
 	sprite.hframes = frames
 	sprite.frame = 0
+
 
 func remakePolygon():
 	if remadePolygon:

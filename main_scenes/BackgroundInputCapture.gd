@@ -13,10 +13,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if event.pressed and not event.echo:
 			pressed_keys[key] = true
 		elif not event.pressed:
-			print("pressed_key ", pressed_keys)
 			_emit_current()
 			pressed_keys.clear()
-			#pressed_keys.erase(key)
 
 
 func _emit_current():

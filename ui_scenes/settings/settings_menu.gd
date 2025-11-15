@@ -32,10 +32,25 @@ func setvalues():
 	
 	$bounceOnCostume/costumeCheck.button_pressed = Global.main.bounceOnCostumeChange
 	
-	var costumeLabels = [$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton1/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton2/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton3/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton4/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton5/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton6/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton7/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton8/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton9/Label,$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton10/Label,]
+	var costumeLabels = [
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton1/Label,
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton2/Label,
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton3/Label,
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton4/Label,
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton5/Label,
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton6/Label,
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton7/Label,
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton8/Label,
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton9/Label,
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton10/Label,
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label,
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label,
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label,
+	]
 	var tag = 1
+	var costumeKeys: Array = Global.main.costumeKeys
 	for label in costumeLabels:
-		label.text = "costume " + _get_costume_number(tag) + " key: \"" + Global.main.costumeKeys[tag-1] + "\""
+		label.text = "costume " + _get_costume_number(tag) + " key: \"" + costumeKeys[tag-1] + "\""
 		tag += 1
 
 
@@ -138,7 +153,6 @@ func _on_bounce_gravity_value_changed(value):
 
 
 func costumeButtonsPressed(label, id):
-	print("costumeButtonsPressed")
 	label.text = "AWAITING INPUT"
 
 	awaitingCostumeInput = id - 1
@@ -199,6 +213,20 @@ func _on_costume_button_10_pressed():
 	costumeButtonsPressed(label,10)
 
 
+func _on_costume_button_follow_pressed() -> void:
+	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label
+	costumeButtonsPressed(label, 11)
+
+
+func _on_costume_button_raid_pressed() -> void:
+	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label
+	costumeButtonsPressed(label, 12)
+
+
+func _on_costume_button_sub_pressed() -> void:
+	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label
+	costumeButtonsPressed(label, 13)
+
 func _on_blink_speed_value_changed(value):
 	if value == 0:
 		Global.blinkSpeed = 0.0
@@ -238,9 +266,9 @@ func deleteKey(label,id):
 func _get_costume_number(id) -> String:
 	var costume_number: String
 	match id:
-		8: costume_number = 'follow'
-		9: costume_number = 'raid'
-		10: costume_number = 'sub'
+		11: costume_number = 'follow'
+		12: costume_number = 'raid'
+		13: costume_number = 'sub'
 		_: costume_number = str(id)
 	return costume_number
 
@@ -293,6 +321,21 @@ func _on_delete_9_pressed():
 func _on_delete_10_pressed():
 	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButton10/Label
 	deleteKey(label,10)
+
+
+func _on_delete_follow_pressed():
+	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label
+	deleteKey(label,11)
+
+
+func _on_delete_raid_pressed():
+	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label
+	deleteKey(label,12)
+
+
+func _on_delete_sub_pressed():
+	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label
+	deleteKey(label,13)
 
 
 func _on_line_edit_text_submitted(new_text: String) -> void:
