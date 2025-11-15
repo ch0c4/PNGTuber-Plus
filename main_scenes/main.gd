@@ -51,7 +51,7 @@ var fileSystemOpen = false
 #background input capture
 signal emptiedCapture
 signal pressedKey
-var costumeKeys = ["1","2","3","4","5","6","7","8","9","0"]
+var costumeKeys = ["1","2","3","4","5","6","7","8","9","0","Ctrl+1","Ctrl+2","Ctrl+3"]
 signal spriteVisToggles(keysPressed:Array)
 signal fatfuckingballs
 
@@ -61,8 +61,7 @@ func _ready():
 	Global.main = self
 	Global.fail = $Failed
 	
-	
-	Global.connect("startSpeaking",onSpeak)
+	Global.connect("startSpeaking", onSpeak)
 	
 	ElgatoStreamDeck.on_key_down.connect(changeCostumeStreamDeck)
 	
@@ -171,15 +170,15 @@ func setup_twitch() -> void:
 
 
 func received_follow() -> void:
-	changeCostume(8)
-
-
-func received_sub() -> void:
-	changeCostume(10)
+	changeCostume(11)
 
 
 func received_raid() -> void:
-	changeCostume(9)
+	changeCostume(12)
+
+
+func received_sub() -> void:
+	changeCostume(13)
 
 
 func followShadow():
@@ -476,10 +475,12 @@ func _on_replace_button_pressed():
 		return
 	$ReplaceDialog.visible = true
 
+
 func _on_replace_dialog_file_selected(path):
 	Global.heldSprite.replaceSprite(path)
 	Global.spriteList.updateData()
 	Global.pushUpdate("Replacing sprite with: " + path)
+
 
 func _on_replace_dialog_visibility_changed():
 	$EditControls/ScreenCover/CollisionShape2D.disabled = !$ReplaceDialog.visible
@@ -539,6 +540,9 @@ func changeCostumeStreamDeck(id: String):
 		"8":changeCostume(8)
 		"9":changeCostume(9)
 		"10":changeCostume(10)
+		"follow": changeCostume(11)
+		"raid": changeCostume(12)
+		"sub": changeCostume(13)
 
 
 func changeCostume(newCostume):
@@ -644,6 +648,7 @@ func _on_background_input_capture_bg_key_pressed(node, keys_pressed):
 		costumeKeys[settingsMenu.awaitingCostumeInput] = keyStringJoin
 		Saving.settings["costumeKeys"] = costumeKeys
 		Global.pushUpdate("Changed costume " + str(settingsMenu.awaitingCostumeInput + 1) + " hotkey from \"" + currentButton + "\" to \"" + keyStringJoin + "\"")
+		settingsMenu.awaitingCostumeInput = -1
 		emit_signal("pressedKey")
 	
 	var i = costumeKeys.find(keyStringJoin)
