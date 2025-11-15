@@ -51,7 +51,7 @@ var updatePusherNode = null
 signal update_channel_name
 
 var channel_name: String: 
-	set (value):
+	set(value):
 		channel_name = value
 		update_channel_name.emit()
 
@@ -350,6 +350,7 @@ func unlinkSprite():
 	Global.spriteList.updateData()
 	pushUpdate("Unlinked sprite.")
 
+
 func saveImagesFromData():
 	var sprites = get_tree().get_nodes_in_group("saved")
 	if sprites.size() <= 0:
@@ -363,7 +364,8 @@ func saveImagesFromData():
 		img.save_png(sprite.path)
 	
 	pushUpdate("Saved all avatar images to computer.")
-	
+
+
 func pushUpdate(text):
 	if is_instance_valid(updatePusherNode):
 		updatePusherNode.pushUpdate(text)

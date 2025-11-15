@@ -214,6 +214,7 @@ func read_save(path):
 		file.close()
 		return newData
 
+
 func write_save(path):
 	if OS.has_feature('web'):
 		JavaScriptBridge.eval("window.localStorage.setItem('" + key + "', '" + JSON.stringify(data) + "');")
@@ -222,6 +223,7 @@ func write_save(path):
 		file.store_line(JSON.stringify(data))
 		file.close()
 
+
 func write_settings(path):
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	file.store_line(JSON.stringify(settings))
@@ -229,7 +231,6 @@ func write_settings(path):
 
 
 func clearSave():
-	
 	if OS.has_feature('web'):
 		var JSONstr = JavaScriptBridge.eval("window.localStorage.getItem('" + key + "');")
 		if (JSONstr):
@@ -244,12 +245,14 @@ func clearSave():
 		var dir = DirAccess.open("user://")
 		dir.remove(key + ".save")
 		data = {}
-	
+
+
 func open_site(url):
 	if OS.has_feature('web'):
 		JavaScriptBridge.eval("window.open(\"" + url + "\");")
 	else:
 		print("Could not open site " + url + " without an HTML5 build")
+
 
 func switchToSite(url):
 	if OS.has_feature('web'):
