@@ -37,7 +37,8 @@ func setvalues():
 	for label in costumeLabels:
 		label.text = "costume " + _get_costume_number(tag) + " key: \"" + Global.main.costumeKeys[tag-1] + "\""
 		tag += 1
-	
+
+
 func _on_color_picker_button_color_changed(color):
 	get_viewport().transparent_bg = false
 	RenderingServer.set_default_clear_color(color)
@@ -45,6 +46,7 @@ func _on_color_picker_button_color_changed(color):
 	Saving.settings["backgroundColor"] = var_to_str(color)
 	
 	Global.pushUpdate("Background color set to CUSTOM COLOR.")
+
 
 func _on_button_pressed():
 	get_viewport().transparent_bg = true
@@ -136,9 +138,9 @@ func _on_bounce_gravity_value_changed(value):
 
 
 func costumeButtonsPressed(label, id):
-	print("costumeButtonsPressed - AWAITING_INPUT")
+	print("costumeButtonsPressed")
 	label.text = "AWAITING INPUT"
-	await Global.main.emptiedCapture
+
 	awaitingCostumeInput = id - 1
 	
 	await Global.main.pressedKey
@@ -149,7 +151,7 @@ func costumeButtonsPressed(label, id):
 
 func _on_costume_button_1_pressed():
 	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButton1/Label
-	costumeButtonsPressed(label,1)
+	costumeButtonsPressed(label, 1)
 
 
 func _on_costume_button_2_pressed():
@@ -241,6 +243,7 @@ func _get_costume_number(id) -> String:
 		10: costume_number = 'sub'
 		_: costume_number = str(id)
 	return costume_number
+
 
 func _on_delete_1_pressed():
 	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButton1/Label

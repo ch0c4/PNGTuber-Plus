@@ -1,7 +1,7 @@
 [gd_scene load_steps=37 format=4 uid="uid://dosc783rn2m5p"]
 
 [ext_resource type="Texture2D" uid="uid://23rqddatjku3" path="res://ui_scenes/mouse/tooltipBox.png" id="1_d077u"]
-[ext_resource type="Script" uid="uid://cgpe6obckf37h" path="res://ui_scenes/microphoneSelect/mic_select_button.gd" id="1_w3usr"]
+[ext_resource type="Script" uid="uid://dk2y3gw5mk3pg" path="res://ui_scenes/microphoneSelect/mic_select_button.gd" id="1_w3usr"]
 
 [sub_resource type="Image" id="Image_pkd3l"]
 data = {

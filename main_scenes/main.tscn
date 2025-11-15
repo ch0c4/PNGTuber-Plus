@@ -33,7 +33,7 @@
 [ext_resource type="Script" uid="uid://bbsgcj2v612p1" path="res://main_scenes/Tutorial.gd" id="27_ivpmi"]
 [ext_resource type="Texture2D" uid="uid://dj1ffgeyacc8g" path="res://ui_scenes/settings/info.png" id="27_og5v1"]
 [ext_resource type="PackedScene" uid="uid://cgto2hfjsb1oe" path="res://ui_scenes/pushUpdates/push_updates.tscn" id="30_q43vl"]
-[ext_resource type="Script" uid="uid://c58nc5yl6nfys" path="res://main_scenes/background_input_capture.gd" id="33_wkprp"]
+[ext_resource type="Script" uid="uid://b154q6sosm7uq" path="res://main_scenes/BackgroundInputCapture.gd" id="33_wkprp"]
 
 [sub_resource type="Image" id="Image_7luwo"]
 data = {
@@ -14715,8 +14715,7 @@ texture = ExtResource("24_joqmn")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(360, 360)
 
-[node name="BackgroundInputCapture" type="BackgroundInputCapture" parent="."]
-position = Vector2(-28, -28)
+[node name="BackgroundInputCapture" type="Node" parent="."]
 script = ExtResource("33_wkprp")
 
 [node name="PushUpdates" parent="." instance=ExtResource("30_q43vl")]
@@ -14745,7 +14744,5 @@ z_index = -4096
 [connection signal="visibility_changed" from="ReplaceDialog" to="." method="_on_replace_dialog_visibility_changed"]
 [connection signal="file_selected" from="SaveDialog" to="." method="_on_save_dialog_file_selected"]
 [connection signal="file_selected" from="LoadDialog" to="." method="_on_load_dialog_file_selected"]
-[connection signal="bg_key_pressed" from="BackgroundInputCapture" to="." method="bgInputSprite"]
-[connection signal="bg_key_pressed" from="BackgroundInputCapture" to="." method="_on_background_input_capture_bg_key_pressed"]
 [connection signal="bg_key_pressed" from="BackgroundInputCapture" to="." method="bgInputSprite"]
 [connection signal="bg_key_pressed" from="BackgroundInputCapture" to="." method="_on_background_input_capture_bg_key_pressed"]

@@ -7,13 +7,13 @@ extends Node2D
 
 @onready var spriteRotDisplay = $RotationalLimits/RotBack/SpriteDisplay
 
-
 @onready var coverCollider = $Area2D/CollisionShape2D
 
 
 func _ready():
 	Global.spriteEdit = self
-	
+
+
 func setImage():
 	if Global.heldSprite == null:
 		return
@@ -88,7 +88,8 @@ func setImage():
 		parentSpin.pixel_size = 1.5 / nodes[0].imageData.get_size().y
 		parentSpin.hframes = nodes[0].frames
 		parentSpin.visible = true
-	
+
+
 func _process(delta):
 
 	visible = Global.heldSprite != null

@@ -559,7 +559,8 @@ func changeCostume(newCostume):
 		onSpeak()
 	
 	Global.pushUpdate("Change costume: " + str(newCostume))
-	
+
+
 func moveSpriteMenu(delta):
 	
 	#moves sprite viewer editor thing around
@@ -616,47 +617,52 @@ func _on_settings_buttons_pressed():
 
 
 func _on_background_input_capture_bg_key_pressed(node, keys_pressed):
+	if fileSystemOpen:
+		return
+	
 	var keyStrings = []
 	
 	for i in keys_pressed:
 		if keys_pressed[i]:
-			keyStrings.append(OS.get_keycode_string(i) if !OS.get_keycode_string(i).strip_edges().is_empty() else "Keycode" + str(i))
+			if !OS.get_keycode_string(i).strip_edges().is_empty():
+				keyStrings.append(OS.get_keycode_string(i))
+			else:
+				keyStrings.append("Keycode" + str(i))
 	
-	if fileSystemOpen:
-		return
-	
-	if keyStrings.size() <= 0:
+	if keyStrings.is_empty():
 		emit_signal("emptiedCapture")
 		return
 	
+	var keyStringJoin = ArrayUtils.array_join(keyStrings)
 	if settingsMenu.awaitingCostumeInput >= 0:
-		
 		if keyStrings[0] == "Keycode1":
 			if !settingsMenu.hasMouse:
 				emit_signal("pressedKey")
 				return
 		
 		var currentButton = costumeKeys[settingsMenu.awaitingCostumeInput]
-		costumeKeys[settingsMenu.awaitingCostumeInput] = keyStrings[0]
+		costumeKeys[settingsMenu.awaitingCostumeInput] = keyStringJoin
 		Saving.settings["costumeKeys"] = costumeKeys
-		Global.pushUpdate("Changed costume " + str(settingsMenu.awaitingCostumeInput+1) + " hotkey from \"" + currentButton + "\" to \"" + keyStrings[0] + "\"")
+		Global.pushUpdate("Changed costume " + str(settingsMenu.awaitingCostumeInput + 1) + " hotkey from \"" + currentButton + "\" to \"" + keyStringJoin + "\"")
 		emit_signal("pressedKey")
 	
-	for key in keyStrings:
-		var i = costumeKeys.find(key)
-		if i >= 0:
-			changeCostume(i+1)
-	
+	var i = costumeKeys.find(keyStringJoin)
+	if i >= 0:
+		changeCostume(i + 1)
 
 
-func bgInputSprite(node, keys_pressed):
+func bgInputSprite(node, keys_pressed: Dictionary):
 	if fileSystemOpen:
 		return
+	
 	var keyStrings = []
 	
 	for i in keys_pressed:
 		if keys_pressed[i]:
-			keyStrings.append(OS.get_keycode_string(i) if !OS.get_keycode_string(i).strip_edges().is_empty() else "Keycode" + str(i))
+			if !OS.get_keycode_string(i).strip_edges().is_empty():
+				keyStrings.append(OS.get_keycode_string(i))
+			else:
+				keyStrings.append("Keycode" + str(i))
 	
 	if keyStrings.size() <= 0:
 		emit_signal("fatfuckingballs")
