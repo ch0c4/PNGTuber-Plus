@@ -52,6 +52,8 @@ func setvalues():
 	for label in costumeLabels:
 		label.text = "costume " + _get_costume_number(tag) + " key: \"" + costumeKeys[tag-1] + "\""
 		tag += 1
+	
+	$TwitchInput/rect/LineEdit.text = Global.channel_name
 
 
 func _on_color_picker_button_color_changed(color):
@@ -339,4 +341,5 @@ func _on_delete_sub_pressed():
 
 
 func _on_line_edit_text_submitted(new_text: String) -> void:
+	$TwitchInput/rect/LineEdit.text = new_text
 	Global.channel_name = new_text
