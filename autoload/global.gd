@@ -53,6 +53,7 @@ signal update_channel_name
 var channel_name: String: 
 	set(value):
 		channel_name = value
+		Saving.settings["channel_name"] = value
 		update_channel_name.emit()
 
 
