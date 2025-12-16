@@ -174,7 +174,8 @@ var settings = {
 	"secondsToMicReset":180,
 	"backgroundColor":var_to_str(Color(0.0,0.0,0.0,0.0)),
 	"filtering":false,
-	"costumeKeys":["1","2","3","4","5","6","7","8","9","0","Ctrl+1","Ctrl+2","Ctrl+3"],
+	"costumeKeys":["1","2","3","4","5","6","7","8","9","0"],
+	"twitchCostumeKeys": ["5", "10", "10"],
 	"blinkSpeed":1.0,
 	"blinkChance":200,
 	"bounceOnCostumeChange":false,
@@ -195,8 +196,13 @@ func _exit_tree():
 	write_settings(settingsPath)
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		write_settings(settingsPath)
+		get_tree().quit()
+
+
 func read_save(path):
-	
 	if path == "default":
 		return DefaultAvatarData.data
 	

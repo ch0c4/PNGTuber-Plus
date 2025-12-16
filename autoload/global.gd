@@ -75,6 +75,7 @@ func _ready():
 		
 	createMicrophone()
 
+
 func createMicrophone():
 	var playa = AudioStreamPlayer.new()
 	var mic = AudioStreamMicrophone.new()
@@ -140,10 +141,8 @@ func _process(delta):
 		else:
 			RenderingServer.set_default_clear_color(Color.GRAY)
 
-	
 	blinking()
 	scrollSprites()
-	
 	
 	if !main.fileSystemOpen:
 	
@@ -155,8 +154,8 @@ func _process(delta):
 		if Input.is_action_pressed("control"):
 			if Input.is_action_just_pressed("saveImages"):
 				saveImagesFromData()
-	
-	
+
+
 func select(areas):
 	
 	if main.fileSystemOpen:

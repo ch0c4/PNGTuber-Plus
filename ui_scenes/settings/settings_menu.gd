@@ -42,16 +42,20 @@ func setvalues():
 		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton7/Label,
 		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton8/Label,
 		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton9/Label,
-		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton10/Label,
-		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label,
-		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label,
-		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label,
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton10/Label
 	]
+	
+	
 	var tag = 1
 	var costumeKeys: Array = Global.main.costumeKeys
 	for label in costumeLabels:
-		label.text = "costume " + _get_costume_number(tag) + " key: \"" + costumeKeys[tag-1] + "\""
+		label.text = "costume " + str(tag) + " key: \"" + costumeKeys[tag-1] + "\""
 		tag += 1
+	
+	var twitchCostumeKeys: Array = Global.main.twitchCostumeKeys
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label.text = "costume Follow->Costume " + twitchCostumeKeys[0]
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label.text = "costume Raid->Costume " + twitchCostumeKeys[1]
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label.text = "costume Sub->Costume " + twitchCostumeKeys[2]
 	
 	$TwitchInput/rect/LineEdit.text = Global.channel_name
 
@@ -160,10 +164,16 @@ func costumeButtonsPressed(label, id):
 	awaitingCostumeInput = id - 1
 	
 	await Global.main.pressedKey
-	label.text = "costume " + _get_costume_number(id) + " key: \"" + Global.main.costumeKeys[id - 1] + "\""
+	label.text = "costume " + str(id) + " key: \"" + Global.main.costumeKeys[id - 1] + "\""
 	await Global.main.emptiedCapture
 	awaitingCostumeInput = -1
 
+
+func costumeCustomPressed(label: Label, lineEdit: LineEdit) -> void:
+	label.hide()
+	lineEdit.text = ""
+	lineEdit.show()
+	lineEdit.grab_focus()
 
 func _on_costume_button_1_pressed():
 	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButton1/Label
@@ -212,22 +222,26 @@ func _on_costume_button_9_pressed():
 
 func _on_costume_button_10_pressed():
 	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButton10/Label
-	costumeButtonsPressed(label,10)
+	costumeButtonsPressed(label, 10)
 
 
 func _on_costume_button_follow_pressed() -> void:
 	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label
-	costumeButtonsPressed(label, 11)
+	var lineEdit = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/LineEdit
+	costumeCustomPressed(label, lineEdit)
 
 
 func _on_costume_button_raid_pressed() -> void:
 	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label
-	costumeButtonsPressed(label, 12)
+	var lineEdit = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/LineEdit
+	costumeCustomPressed(label, lineEdit)
 
 
 func _on_costume_button_sub_pressed() -> void:
 	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label
-	costumeButtonsPressed(label, 13)
+	var lineEdit = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/LineEdit
+	costumeCustomPressed(label, lineEdit)
+
 
 func _on_blink_speed_value_changed(value):
 	if value == 0:
@@ -259,20 +273,10 @@ func _process(delta):
 		hasMouse = true
 
 
-func deleteKey(label,id):
+func deleteKey(label, id):
 	Global.main.costumeKeys[id-1] = "null"
-	label.text = "costume " + _get_costume_number(id) + " key: \"" + Global.main.costumeKeys[id-1] + "\""
+	label.text = "costume " + str(id) + " key: \"" + Global.main.costumeKeys[id-1] + "\""
 	Global.pushUpdate("Deleted costume hotkey " + str(id) + ".")
-
-
-func _get_costume_number(id) -> String:
-	var costume_number: String
-	match id:
-		11: costume_number = 'follow'
-		12: costume_number = 'raid'
-		13: costume_number = 'sub'
-		_: costume_number = str(id)
-	return costume_number
 
 
 func _on_delete_1_pressed():
@@ -325,21 +329,45 @@ func _on_delete_10_pressed():
 	deleteKey(label,10)
 
 
-func _on_delete_follow_pressed():
-	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label
-	deleteKey(label,11)
-
-
-func _on_delete_raid_pressed():
-	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label
-	deleteKey(label,12)
-
-
-func _on_delete_sub_pressed():
-	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label
-	deleteKey(label,13)
-
-
 func _on_line_edit_text_submitted(new_text: String) -> void:
 	$TwitchInput/rect/LineEdit.text = new_text
 	Global.channel_name = new_text
+
+
+func _on_follow_line_edit_text_submitted(new_text: String) -> void:
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label.show()
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/LineEdit.hide()
+	if int(new_text) < 1 or int(new_text) > 10:
+		Global.pushUpdate("Erreur le costume est invalide -> " + new_text)
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/LineEdit.text = Global.main.twitchCostumeKeys[0]
+		return
+	
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label.text = "costume Follow->Costume " + new_text
+	Global.main.twitchCostumeKeys[0] = new_text
+	Saving.settings.twitchCostumeKeys[0] = new_text
+
+
+func _on_line_raid_edit_text_submitted(new_text: String) -> void:
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label.show()
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/LineEdit.hide()
+	if int(new_text) < 1 or int(new_text) > 10:
+		Global.pushUpdate("Erreur le costume est invalide -> " + new_text)
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/LineEdit.text = Global.main.twitchCostumeKeys[1]
+		return
+	
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label.text = "costume Raid->Costume " + new_text
+	Global.main.twitchCostumeKeys[1] = new_text
+	Saving.settings.twitchCostumeKeys[1] = new_text
+
+
+func _on_sub_line_edit_text_submitted(new_text: String) -> void:
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label.show()
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/LineEdit.hide()
+	if int(new_text) < 1 or int(new_text) > 10:
+		Global.pushUpdate("Erreur le costume est invalide -> " + new_text)
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/LineEdit.text = Global.main.twitchCostumeKeys[2]
+		return
+	
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label.text = "costume Sub->Costume " + new_text
+	Global.main.twitchCostumeKeys[2] = new_text
+	Saving.settings.twitchCostumeKeys[2] = new_text

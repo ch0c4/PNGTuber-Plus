@@ -51,10 +51,10 @@ var fileSystemOpen = false
 #background input capture
 signal emptiedCapture
 signal pressedKey
-var costumeKeys = ["1","2","3","4","5","6","7","8","9","0","Ctrl+1","Ctrl+2","Ctrl+3"]
+var costumeKeys = ["1","2","3","4","5","6","7","8","9","0"]
+var twitchCostumeKeys = ["5", "10", "10"]
 signal spriteVisToggles(keysPressed:Array)
 signal fatfuckingballs
-
 
 
 func _ready():
@@ -106,6 +106,11 @@ func _ready():
 			costumeKeys = Saving.settings["costumeKeys"]
 		else:
 			Saving.settings["costumeKeys"] = costumeKeys
+		
+		if Saving.settings.has("twitchCostumeKeys"):
+			twitchCostumeKeys = Saving.settings["twitchCostumeKeys"]
+		else:
+			Saving.settings["twitchCostumeKeys"] = twitchCostumeKeys
 		
 		if Saving.settings.has("blinkSpeed"):
 			Global.blinkSpeed = Saving.settings["blinkSpeed"]
@@ -170,15 +175,20 @@ func setup_twitch() -> void:
 
 
 func received_follow() -> void:
-	changeCostume(11)
+	Global.pushUpdate("Follow !!!")
+	Global.pushUpdate("Change to costume " + twitchCostumeKeys[0])
+	changeCostume(int(twitchCostumeKeys[0]))
 
 
 func received_raid() -> void:
-	changeCostume(12)
+	Global.pushUpdate("Raid !!!")
+	Global.pushUpdate("Change to costume " + twitchCostumeKeys[0])
+	changeCostume(int(twitchCostumeKeys[1]))
 
 
 func received_sub() -> void:
-	changeCostume(13)
+	Global.pushUpdate("Sub !!!")
+	changeCostume(int(twitchCostumeKeys[2]))
 
 
 func followShadow():
@@ -466,8 +476,8 @@ func _on_kofi_pressed():
 
 
 func _on_twitter_pressed():
-	OS.shell_open("https://twitter.com/kaiakairos")
-	Global.pushUpdate("Follow me on twitter!")
+	OS.shell_open("https://linktr.ee/kaiakairos")
+	Global.pushUpdate("Follow me on instagram!")
 
 
 func _on_replace_button_pressed():
@@ -540,9 +550,6 @@ func changeCostumeStreamDeck(id: String):
 		"8":changeCostume(8)
 		"9":changeCostume(9)
 		"10":changeCostume(10)
-		"follow": changeCostume(11)
-		"raid": changeCostume(12)
-		"sub": changeCostume(13)
 
 
 func changeCostume(newCostume):
