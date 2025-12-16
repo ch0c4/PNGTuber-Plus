@@ -73,6 +73,7 @@ func end_chat_client():
 		_twitch_api.queue_free()
 		_twitch_api = null
 
+
 func send_chat_message(message: String):
 	_twitch_chat.send_message(message)
 
@@ -84,8 +85,10 @@ func on_chat_message_received(chatter: VSTChatter):
 func on_channel_follow_received():
 	channel_follow_received.emit()
 
+
 func on_channel_sub_received():
 	channel_sub_received.emit()
+
 
 func on_channel_raid_received():
 	channel_raid_received.emit()

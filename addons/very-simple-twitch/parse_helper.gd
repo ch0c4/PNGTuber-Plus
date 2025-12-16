@@ -72,9 +72,6 @@ static func parse_user_notice(inputs: PackedStringArray) -> String:
 		if splitted_info.size() <= 1:
 			continue
 
-		if splitted_info[0].strip_edges() != "msg-id":
-			continue
-
 		var arrayMsgId = [
 			"sub",
 			"resub",
@@ -87,10 +84,10 @@ static func parse_user_notice(inputs: PackedStringArray) -> String:
 			"standardpayforward",
 			"primepaidupgrade"]
 
-		if arrayMsgId.has(splitted_info[i].strip_edges()):
+		if arrayMsgId.has(splitted_info[1].strip_edges()):
 			return "sub"
 		
-		if splitted_info[i].strip_edges() == "raid":
+		if splitted_info[1].strip_edges() == "raid":
 			return "raid"
 
 	return "unknown"

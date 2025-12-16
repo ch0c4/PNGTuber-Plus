@@ -103,14 +103,17 @@ func onChatConnected():
 	_chatClient.send_text('JOIN ' + '#' + _channel.login.to_lower())
 	Connected.emit()
 
+
 func send_message(message: String):
 	_chat_queue.append("PRIVMSG #" + _channel.login.to_lower() + " :" + message + "\r\n")
+
 
 func onReceivedData(payload: PackedByteArray):
 	var message = payload.get_string_from_utf8()
 	var splittled_messages = message.split("\n")
 	for n in splittled_messages:
 		handle_message(n)
+
 
 #TODO: move this to parse helper?
 func parse_message_from_twtich_IRC(message: String) -> PackedStringArray:
