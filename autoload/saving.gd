@@ -175,7 +175,20 @@ var settings = {
 	"backgroundColor":var_to_str(Color(0.0,0.0,0.0,0.0)),
 	"filtering":false,
 	"costumeKeys":["1","2","3","4","5","6","7","8","9","0"],
-	"twitchCostumeKeys": ["5", "10", "10"],
+	"twitchCostumeKeys": {
+		"follow":{
+			"costumeNumber": "5",
+			"time": 15 
+		},
+		"raid": {
+			"costumeNumber": "10",
+			"time": 15 
+		},
+		"sub": {
+			"costumeNumber": "10",
+			"time": 15
+		}
+	},
 	"blinkSpeed":1.0,
 	"blinkChance":200,
 	"bounceOnCostumeChange":false,

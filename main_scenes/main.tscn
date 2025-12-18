@@ -14261,7 +14261,7 @@ flat = true
 [node name="SettingsMenu" parent="ControlPanel" instance=ExtResource("25_a76ao")]
 visible = false
 z_index = 4096
-position = Vector2(-431, -560)
+position = Vector2(-525, -560)
 
 [node name="Edit" type="Sprite2D" parent="ControlPanel"]
 texture_repeat = 2
