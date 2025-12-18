@@ -45,17 +45,22 @@ func setvalues():
 		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButton10/Label
 	]
 	
-	
 	var tag = 1
 	var costumeKeys: Array = Global.main.costumeKeys
 	for label in costumeLabels:
 		label.text = "costume " + str(tag) + " key: \"" + costumeKeys[tag-1] + "\""
 		tag += 1
 	
-	var twitchCostumeKeys: Array = Global.main.twitchCostumeKeys
-	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label.text = "costume Follow->Costume " + twitchCostumeKeys[0]
-	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label.text = "costume Raid->Costume " + twitchCostumeKeys[1]
-	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label.text = "costume Sub->Costume " + twitchCostumeKeys[2]
+	var twitchCostumeKeys: Dictionary = Global.main.twitchCostumeKeys
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label.text = "costume Follow: Costume " + twitchCostumeKeys["follow"]["costumeNumber"] + " for " + str(twitchCostumeKeys["follow"]["time"]) + "s"
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/HBoxContainer/LineEdit.text = twitchCostumeKeys["follow"]["costumeNumber"]
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/HBoxContainer/LineEdit2.text = str(twitchCostumeKeys["follow"]["time"])
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label.text = "costume Raid: Costume " + twitchCostumeKeys["raid"]["costumeNumber"] + " for " + str(twitchCostumeKeys["raid"]["time"]) + "s"
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/HBoxContainer/LineEdit.text = twitchCostumeKeys["raid"]["costumeNumber"]
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/HBoxContainer/LineEdit2.text = str(twitchCostumeKeys["raid"]["time"])
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label.text = "costume Sub: Costume " + twitchCostumeKeys["sub"]["costumeNumber"] + " for " + str(twitchCostumeKeys["sub"]["time"]) + "s"
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer/LineEdit.text = twitchCostumeKeys["sub"]["costumeNumber"]
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer/LineEdit2.text = str(twitchCostumeKeys["sub"]["time"])
 	
 	$TwitchInput/rect/LineEdit.text = Global.channel_name
 
@@ -169,10 +174,10 @@ func costumeButtonsPressed(label, id):
 	awaitingCostumeInput = -1
 
 
-func costumeCustomPressed(label: Label, lineEdit: LineEdit) -> void:
+func costumeCustomPressed(label: Label, container: HBoxContainer, lineEdit: LineEdit) -> void:
 	label.hide()
 	lineEdit.text = ""
-	lineEdit.show()
+	container.show()
 	lineEdit.grab_focus()
 
 func _on_costume_button_1_pressed():
@@ -227,20 +232,23 @@ func _on_costume_button_10_pressed():
 
 func _on_costume_button_follow_pressed() -> void:
 	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label
-	var lineEdit = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/LineEdit
-	costumeCustomPressed(label, lineEdit)
+	var lineEdit = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/HBoxContainer/LineEdit
+	var container = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/HBoxContainer
+	costumeCustomPressed(label, container, lineEdit)
 
 
 func _on_costume_button_raid_pressed() -> void:
 	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label
-	var lineEdit = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/LineEdit
-	costumeCustomPressed(label, lineEdit)
+	var lineEdit = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/HBoxContainer/LineEdit
+	var container = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/HBoxContainer
+	costumeCustomPressed(label, container, lineEdit)
 
 
 func _on_costume_button_sub_pressed() -> void:
 	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label
-	var lineEdit = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/LineEdit
-	costumeCustomPressed(label, lineEdit)
+	var lineEdit = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer/LineEdit
+	var container = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer
+	costumeCustomPressed(label, container, lineEdit)
 
 
 func _on_blink_speed_value_changed(value):
@@ -335,39 +343,110 @@ func _on_line_edit_text_submitted(new_text: String) -> void:
 
 
 func _on_follow_line_edit_text_submitted(new_text: String) -> void:
+	print("follow costume submit ", new_text)
 	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label.show()
-	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/LineEdit.hide()
-	if int(new_text) < 1 or int(new_text) > 10:
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/HBoxContainer.hide()
+	if not check_update_costume_number(int(new_text)):
 		Global.pushUpdate("Erreur le costume est invalide -> " + new_text)
-		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/LineEdit.text = Global.main.twitchCostumeKeys[0]
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/HBoxContainer/LineEdit.text = Global.main.twitchCostumeKeys["follow"]["costumeNumber"]
 		return
 	
-	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label.text = "costume Follow->Costume " + new_text
-	Global.main.twitchCostumeKeys[0] = new_text
-	Saving.settings.twitchCostumeKeys[0] = new_text
+	Global.main.twitchCostumeKeys["follow"]["costumeNumber"] = new_text
+	Saving.settings.twitchCostumeKeys["follow"]["costumeNumber"] = new_text
+	Global.pushUpdate("Update follow costume to " + new_text)
+	var twitchCostumeKeys = Global.main.twitchCostumeKeys
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label.text = "costume Follow: Costume " + twitchCostumeKeys["follow"]["costumeNumber"] + " for " + str(twitchCostumeKeys["follow"]["time"]) + "s"
+	
+
+
+func _on_follow_line_edit_2_text_submitted(new_text: String) -> void:
+	print("follow time submit ", new_text)
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label.show()
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/HBoxContainer.hide()
+	
+	var costumeNumberUpdated = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/HBoxContainer/LineEdit.text
+	if check_update_costume_number(int(costumeNumberUpdated)):
+		Global.main.twitchCostumeKeys["follow"]["costumeNumber"] = costumeNumberUpdated
+		Saving.settings.twitchCostumeKeys["follow"]["costumeNumber"] = costumeNumberUpdated
+		Global.pushUpdate("Update follow costume to " + costumeNumberUpdated)
+	
+	Global.main.twitchCostumeKeys["follow"]["time"] = int(new_text)
+	Saving.settings.twitchCostumeKeys["follow"]["time"] = int(new_text)
+	Global.pushUpdate("Update follow time to " + new_text + "s")
+	var twitchCostumeKeys = Global.main.twitchCostumeKeys
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label.text = "costume Follow: Costume " + twitchCostumeKeys["follow"]["costumeNumber"] + " for " + str(twitchCostumeKeys["follow"]["time"]) + "s"
+
 
 
 func _on_line_raid_edit_text_submitted(new_text: String) -> void:
+	print("raid costume submit ", new_text)
 	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label.show()
-	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/LineEdit.hide()
-	if int(new_text) < 1 or int(new_text) > 10:
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/HBoxContainer.hide()
+	if not check_update_costume_number(int(new_text)):
 		Global.pushUpdate("Erreur le costume est invalide -> " + new_text)
-		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/LineEdit.text = Global.main.twitchCostumeKeys[1]
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/HBoxContainer/LineEdit.text = Global.main.twitchCostumeKeys["raid"]["costumeNumber"]
 		return
 	
-	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label.text = "costume Raid->Costume " + new_text
-	Global.main.twitchCostumeKeys[1] = new_text
-	Saving.settings.twitchCostumeKeys[1] = new_text
+	Global.main.twitchCostumeKeys["raid"]["costumeNumber"] = new_text
+	Saving.settings.twitchCostumeKeys["raid"]["costumeNumber"] = new_text
+	Global.pushUpdate("Update raid costume to " + new_text)
+	var twitchCostumeKeys = Global.main.twitchCostumeKeys
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label.text = "costume Raid: Costume " + twitchCostumeKeys["raid"]["costumeNumber"] + " for " + str(twitchCostumeKeys["raid"]["time"]) + "s"
+
+
+func _on_line_raid_edit_2_text_submitted(new_text: String) -> void:
+	print("raid time submit ", new_text)
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label.show()
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/HBoxContainer.hide()
+	
+	var costumeNumberUpdated = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/HBoxContainer/LineEdit.text
+	if check_update_costume_number(int(costumeNumberUpdated)):
+		Global.main.twitchCostumeKeys["raid"]["costumeNumber"] = costumeNumberUpdated
+		Saving.settings.twitchCostumeKeys["raid"]["costumeNumber"] = costumeNumberUpdated
+		Global.pushUpdate("Update raid costume to " + costumeNumberUpdated)
+	
+	Global.main.twitchCostumeKeys["raid"]["time"] = int(new_text)
+	Saving.settings.twitchCostumeKeys["raid"]["time"] = int(new_text)
+	Global.pushUpdate("Update raid time to " + new_text + "s")
+	var twitchCostumeKeys = Global.main.twitchCostumeKeys
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/Label.text = "costume Raid: Costume " + twitchCostumeKeys["raid"]["costumeNumber"] + " for " + str(twitchCostumeKeys["raid"]["time"]) + "s"
 
 
 func _on_sub_line_edit_text_submitted(new_text: String) -> void:
+	print("sub costume submit ", new_text)
 	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label.show()
-	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/LineEdit.hide()
-	if int(new_text) < 1 or int(new_text) > 10:
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer.hide()
+	if not check_update_costume_number(int(new_text)):
 		Global.pushUpdate("Erreur le costume est invalide -> " + new_text)
-		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/LineEdit.text = Global.main.twitchCostumeKeys[2]
+		$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer/LineEdit.text = Global.main.twitchCostumeKeys["sub"]["costumeNumber"]
 		return
 	
-	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label.text = "costume Sub->Costume " + new_text
-	Global.main.twitchCostumeKeys[2] = new_text
-	Saving.settings.twitchCostumeKeys[2] = new_text
+	Global.main.twitchCostumeKeys["sub"]["costumeNumber"] = new_text
+	Saving.settings.twitchCostumeKeys["sub"]["costumeNumber"] = new_text
+	Global.pushUpdate("Update sub costume to " + new_text)
+	var twitchCostumeKeys = Global.main.twitchCostumeKeys
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label.text = "costume Sub: Costume " + twitchCostumeKeys["sub"]["costumeNumber"] + " for " + str(twitchCostumeKeys["sub"]["time"]) + "s"
+
+
+func _on_line_sub_edit_2_text_submitted(new_text: String) -> void:
+	print("sub time submit ", new_text)
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label.show()
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer.hide()
+	
+	var costumeNumberUpdated = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer/LineEdit.text
+	if check_update_costume_number(int(costumeNumberUpdated)):
+		Global.main.twitchCostumeKeys["sub"]["costumeNumber"] = costumeNumberUpdated
+		Saving.settings.twitchCostumeKeys["sub"]["costumeNumber"] = costumeNumberUpdated
+		Global.pushUpdate("Update sub costume to " + costumeNumberUpdated)
+	
+	Global.main.twitchCostumeKeys["sub"]["time"] = int(new_text)
+	Saving.settings.twitchCostumeKeys["sub"]["time"] = int(new_text)
+	Global.pushUpdate("Update sub time to " + new_text + "s")
+	var twitchCostumeKeys = Global.main.twitchCostumeKeys
+	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/Label.text = "costume Sub: Costume " + twitchCostumeKeys["sub"]["costumeNumber"] + " for " + str(twitchCostumeKeys["sub"]["time"]) + "s"
+
+
+func check_update_costume_number(value: int) -> bool:
+	if value < 1 or value > 10:
+		return false
+	return true

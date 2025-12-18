@@ -38,6 +38,7 @@ var bounceGravity = 1000
 
 #Costumes
 var costume = 1
+var previous_costume = 1
 var bounceOnCostumeChange = false
 
 #Zooming
@@ -52,7 +53,21 @@ var fileSystemOpen = false
 signal emptiedCapture
 signal pressedKey
 var costumeKeys = ["1","2","3","4","5","6","7","8","9","0"]
-var twitchCostumeKeys = ["5", "10", "10"]
+var twitchCostumeKeys = {
+	"follow":{
+		"costumeNumber": "5",
+		"time": 15 
+	},
+	"raid": {
+		"costumeNumber": "10",
+		"time": 15 
+	},
+	"sub": {
+		"costumeNumber": "10",
+		"time": 15
+	}
+}
+var timer: SceneTreeTimer = null
 signal spriteVisToggles(keysPressed:Array)
 signal fatfuckingballs
 
@@ -132,6 +147,7 @@ func _ready():
 	RenderingServer.set_default_clear_color(Global.backgroundColor)
 	swapMode()
 	settingsMenu.setvalues()
+	previous_costume = 1
 	changeCostume(1)
 	
 	var s = get_viewport().get_visible_rect().size
@@ -176,19 +192,27 @@ func setup_twitch() -> void:
 
 func received_follow() -> void:
 	Global.pushUpdate("Follow !!!")
-	Global.pushUpdate("Change to costume " + twitchCostumeKeys[0])
-	changeCostume(int(twitchCostumeKeys[0]))
+	if twitchCostumeKeys["follow"]["time"] <= 0:
+		changeCostume(int(twitchCostumeKeys["follow"]["costumeNumber"]), twitchCostumeKeys["follow"]["time"])
+	else:
+		changeCostume(int(twitchCostumeKeys["follow"]["costumeNumber"]), twitchCostumeKeys["follow"]["time"])
 
 
 func received_raid() -> void:
 	Global.pushUpdate("Raid !!!")
-	Global.pushUpdate("Change to costume " + twitchCostumeKeys[0])
-	changeCostume(int(twitchCostumeKeys[1]))
+	if twitchCostumeKeys["raid"]["time"] <= 0:
+		changeCostume(int(twitchCostumeKeys["raid"]["costumeNumber"]), twitchCostumeKeys["raid"]["time"])
+	else:
+		changeCostume(int(twitchCostumeKeys["raid"]["costumeNumber"]), twitchCostumeKeys["raid"]["time"])
+
 
 
 func received_sub() -> void:
 	Global.pushUpdate("Sub !!!")
-	changeCostume(int(twitchCostumeKeys[2]))
+	if twitchCostumeKeys["sub"]["time"] <= 0:
+		changeCostume(int(twitchCostumeKeys["sub"]["costumeNumber"]), twitchCostumeKeys["sub"]["time"])
+	else:
+		changeCostume(int(twitchCostumeKeys["sub"]["costumeNumber"]), twitchCostumeKeys["sub"]["time"])
 
 
 func followShadow():
@@ -552,7 +576,10 @@ func changeCostumeStreamDeck(id: String):
 		"10":changeCostume(10)
 
 
-func changeCostume(newCostume):
+func changeCostume(newCostume, timeout = null):
+	timer = null
+	if timeout == null:
+		previous_costume = costume
 	costume = newCostume
 	Global.heldSprite = null
 	var nodes = get_tree().get_nodes_in_group("saved")
@@ -570,6 +597,9 @@ func changeCostume(newCostume):
 		onSpeak()
 	
 	Global.pushUpdate("Change costume: " + str(newCostume))
+	if timeout != null:
+		timer = await get_tree().create_timer(timeout).timeout
+		changeCostume(previous_costume)
 
 
 func moveSpriteMenu(delta):

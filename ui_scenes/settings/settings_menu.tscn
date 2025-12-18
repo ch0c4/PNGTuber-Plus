@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://kj528cw4xqwd"]
+[gd_scene load_steps=60 format=4 uid="uid://kj528cw4xqwd"]
 
 [ext_resource type="Script" uid="uid://klhbthawkjgh" path="res://ui_scenes/settings/settings_menu.gd" id="1_ckdhy"]
 [ext_resource type="Texture2D" uid="uid://23rqddatjku3" path="res://ui_scenes/mouse/tooltipBox.png" id="1_ylauk"]
@@ -14178,11 +14178,35 @@ HSlider/styles/grabber_area = SubResource("StyleBoxFlat_2r30l")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_44q16")
 HSlider/styles/slider = SubResource("StyleBoxFlat_t3qts")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qvowd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f35cv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ppwt5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d7bol"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8mjjx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wgb8c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kv2le"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1jboq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p0ocu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ags1t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_irpdk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7q0wx"]
+
 [node name="SettingsMenu" type="Node2D"]
 script = ExtResource("1_ckdhy")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
-offset_right = 419.0
+offset_right = 502.0
 offset_bottom = 423.0
 texture = ExtResource("1_ylauk")
 region_rect = Rect2(0, 0, 48, 48)
@@ -14192,7 +14216,8 @@ patch_margin_right = 8
 patch_margin_bottom = 8
 
 [node name="Background" type="Node2D" parent="."]
-position = Vector2(22, 25)
+position = Vector2(38, 25)
+metadata/_edit_group_ = true
 
 [node name="Transparent" type="Sprite2D" parent="Background"]
 position = Vector2(173, 13)
@@ -14256,7 +14281,8 @@ position = Vector2(330, 27)
 texture = ExtResource("7_8meot")
 
 [node name="MaxFPS" type="Node2D" parent="."]
-position = Vector2(22, 74)
+position = Vector2(38, 74)
+metadata/_edit_group_ = true
 
 [node name="Label" type="Label" parent="MaxFPS"]
 offset_right = 138.0
@@ -14319,7 +14345,8 @@ offset_right = 154.0
 offset_bottom = 25.0
 
 [node name="BounceForce" type="Node2D" parent="."]
-position = Vector2(22, 115)
+position = Vector2(38, 115)
+metadata/_edit_group_ = true
 
 [node name="Label" type="Label" parent="BounceForce"]
 offset_right = 138.0
@@ -14344,7 +14371,8 @@ value = 250.0
 scrollable = false
 
 [node name="BounceGravity" type="Node2D" parent="."]
-position = Vector2(22, 153)
+position = Vector2(38, 153)
+metadata/_edit_group_ = true
 
 [node name="Label" type="Label" parent="BounceGravity"]
 offset_right = 138.0
@@ -14408,13 +14436,13 @@ placeholder_text = "A modifier"
 alignment = 1
 
 [node name="CostumeInputs" type="Node2D" parent="."]
-position = Vector2(404, 305)
+position = Vector2(412, 305)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CostumeInputs"]
 offset_left = -226.0
 offset_top = -78.0
-offset_right = 7.0
-offset_bottom = 110.0
+offset_right = 83.0
+offset_bottom = 112.0
 horizontal_scroll_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CostumeInputs/ScrollContainer"]
@@ -14446,16 +14474,16 @@ patch_margin_bottom = 8
 layout_mode = 0
 offset_left = 7.0
 offset_top = 4.0
-offset_right = 202.0
+offset_right = 277.0
 offset_bottom = 30.0
 text = "costume 1 key: \"1\""
 vertical_alignment = 1
 
 [node name="delete1" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton1"]
 layout_mode = 0
-offset_left = 210.0
+offset_left = 286.0
 offset_top = 4.0
-offset_right = 221.0
+offset_right = 297.0
 offset_bottom = 15.0
 flat = true
 
@@ -14489,16 +14517,16 @@ patch_margin_bottom = 8
 layout_mode = 0
 offset_left = 7.0
 offset_top = 4.0
-offset_right = 202.0
+offset_right = 277.0
 offset_bottom = 30.0
 text = "costume 1 key: \"1\""
 vertical_alignment = 1
 
 [node name="delete2" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton2"]
 layout_mode = 0
-offset_left = 210.0
+offset_left = 286.0
 offset_top = 4.0
-offset_right = 221.0
+offset_right = 297.0
 offset_bottom = 15.0
 flat = true
 
@@ -14532,16 +14560,16 @@ patch_margin_bottom = 8
 layout_mode = 0
 offset_left = 7.0
 offset_top = 4.0
-offset_right = 202.0
+offset_right = 277.0
 offset_bottom = 30.0
 text = "costume 1 key: \"1\""
 vertical_alignment = 1
 
 [node name="delete3" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton3"]
 layout_mode = 0
-offset_left = 210.0
+offset_left = 286.0
 offset_top = 4.0
-offset_right = 221.0
+offset_right = 297.0
 offset_bottom = 15.0
 flat = true
 
@@ -14575,16 +14603,16 @@ patch_margin_bottom = 8
 layout_mode = 0
 offset_left = 7.0
 offset_top = 4.0
-offset_right = 202.0
+offset_right = 277.0
 offset_bottom = 30.0
 text = "costume 1 key: \"1\""
 vertical_alignment = 1
 
 [node name="delete4" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton4"]
 layout_mode = 0
-offset_left = 210.0
+offset_left = 286.0
 offset_top = 4.0
-offset_right = 221.0
+offset_right = 297.0
 offset_bottom = 15.0
 flat = true
 
@@ -14618,16 +14646,16 @@ patch_margin_bottom = 8
 layout_mode = 0
 offset_left = 7.0
 offset_top = 4.0
-offset_right = 202.0
+offset_right = 277.0
 offset_bottom = 30.0
 text = "costume 1 key: \"1\""
 vertical_alignment = 1
 
 [node name="delete5" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton5"]
 layout_mode = 0
-offset_left = 210.0
+offset_left = 286.0
 offset_top = 4.0
-offset_right = 221.0
+offset_right = 297.0
 offset_bottom = 15.0
 flat = true
 
@@ -14661,16 +14689,16 @@ patch_margin_bottom = 8
 layout_mode = 0
 offset_left = 7.0
 offset_top = 4.0
-offset_right = 202.0
+offset_right = 277.0
 offset_bottom = 30.0
 text = "costume 1 key: \"1\""
 vertical_alignment = 1
 
 [node name="delete6" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton6"]
 layout_mode = 0
-offset_left = 210.0
+offset_left = 286.0
 offset_top = 4.0
-offset_right = 221.0
+offset_right = 297.0
 offset_bottom = 15.0
 flat = true
 
@@ -14704,16 +14732,16 @@ patch_margin_bottom = 8
 layout_mode = 0
 offset_left = 7.0
 offset_top = 4.0
-offset_right = 202.0
+offset_right = 277.0
 offset_bottom = 30.0
 text = "costume 1 key: \"1\""
 vertical_alignment = 1
 
 [node name="delete7" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton7"]
 layout_mode = 0
-offset_left = 210.0
+offset_left = 286.0
 offset_top = 4.0
-offset_right = 221.0
+offset_right = 297.0
 offset_bottom = 15.0
 flat = true
 
@@ -14747,16 +14775,16 @@ patch_margin_bottom = 8
 layout_mode = 0
 offset_left = 7.0
 offset_top = 4.0
-offset_right = 202.0
+offset_right = 277.0
 offset_bottom = 30.0
 text = "costume 1 key: \"1\""
 vertical_alignment = 1
 
 [node name="delete8" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton8"]
 layout_mode = 0
-offset_left = 210.0
+offset_left = 286.0
 offset_top = 4.0
-offset_right = 221.0
+offset_right = 297.0
 offset_bottom = 15.0
 flat = true
 
@@ -14790,16 +14818,16 @@ patch_margin_bottom = 8
 layout_mode = 0
 offset_left = 7.0
 offset_top = 4.0
-offset_right = 202.0
+offset_right = 277.0
 offset_bottom = 30.0
 text = "costume 1 key: \"1\""
 vertical_alignment = 1
 
 [node name="delete9" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton9"]
 layout_mode = 0
-offset_left = 210.0
+offset_left = 286.0
 offset_top = 4.0
-offset_right = 221.0
+offset_right = 297.0
 offset_bottom = 15.0
 flat = true
 
@@ -14833,16 +14861,16 @@ patch_margin_bottom = 8
 layout_mode = 0
 offset_left = 7.0
 offset_top = 4.0
-offset_right = 202.0
+offset_right = 277.0
 offset_bottom = 30.0
 text = "costume 1 key: \"1\""
 vertical_alignment = 1
 
 [node name="delete10" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton10"]
 layout_mode = 0
-offset_left = 210.0
+offset_left = 286.0
 offset_top = 4.0
-offset_right = 221.0
+offset_right = 297.0
 offset_bottom = 15.0
 flat = true
 
@@ -14876,17 +14904,43 @@ patch_margin_bottom = 8
 layout_mode = 0
 offset_left = 7.0
 offset_top = 4.0
-offset_right = 202.0
+offset_right = 277.0
 offset_bottom = 30.0
 text = "costume 1 key: \"1\""
 vertical_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow"]
 visible = false
-layout_mode = 0
-offset_right = 195.0
-offset_bottom = 31.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_right = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LineEdit" type="LineEdit" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_next = NodePath("../LineEdit2")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_qvowd")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_f35cv")
 placeholder_text = "Num Costume"
+
+[node name="LineEdit2" type="LineEdit" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.4
+focus_previous = NodePath("../LineEdit")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ppwt5")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_d7bol")
+placeholder_text = "15"
+alignment = 2
+
+[node name="Label" type="Label" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/HBoxContainer"]
+layout_mode = 2
+text = "s"
 
 [node name="costumeButtonRaid" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 37.125)
@@ -14913,17 +14967,43 @@ patch_margin_bottom = 8
 layout_mode = 0
 offset_left = 7.0
 offset_top = 4.0
-offset_right = 202.0
+offset_right = 277.0
 offset_bottom = 30.0
 text = "costume 1 key: \"1\""
 vertical_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid"]
 visible = false
-layout_mode = 0
-offset_right = 195.0
-offset_bottom = 31.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_right = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LineEdit" type="LineEdit" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_next = NodePath("../LineEdit2")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_8mjjx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_wgb8c")
 placeholder_text = "Num Costume"
+
+[node name="LineEdit2" type="LineEdit" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.4
+focus_previous = NodePath("../LineEdit")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_kv2le")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1jboq")
+placeholder_text = "15"
+alignment = 2
+
+[node name="Label" type="Label" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/HBoxContainer"]
+layout_mode = 2
+text = "s"
 
 [node name="costumeButtonSub" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 37.125)
@@ -14950,17 +15030,41 @@ patch_margin_bottom = 8
 layout_mode = 0
 offset_left = 7.0
 offset_top = 4.0
-offset_right = 202.0
+offset_right = 277.0
 offset_bottom = 30.0
 text = "costume 1 key: \"1\""
 vertical_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub"]
 visible = false
-layout_mode = 0
-offset_right = 195.0
-offset_bottom = 31.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LineEdit" type="LineEdit" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_p0ocu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ags1t")
 placeholder_text = "Num Costume"
+
+[node name="LineEdit2" type="LineEdit" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.4
+theme_override_styles/normal = SubResource("StyleBoxEmpty_irpdk")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7q0wx")
+placeholder_text = "15"
+alignment = 2
+
+[node name="Label" type="Label" parent="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer"]
+layout_mode = 2
+text = "s"
 
 [node name="Label" type="Label" parent="CostumeInputs"]
 offset_left = -179.0
@@ -15048,10 +15152,13 @@ scrollable = false
 [connection signal="pressed" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton10" to="." method="_on_costume_button_10_pressed"]
 [connection signal="pressed" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton10/delete10" to="." method="_on_delete_10_pressed"]
 [connection signal="pressed" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow" to="." method="_on_costume_button_follow_pressed"]
-[connection signal="text_submitted" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/LineEdit" to="." method="_on_follow_line_edit_text_submitted"]
+[connection signal="text_submitted" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/HBoxContainer/LineEdit" to="." method="_on_follow_line_edit_text_submitted"]
+[connection signal="text_submitted" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/HBoxContainer/LineEdit2" to="." method="_on_follow_line_edit_2_text_submitted"]
 [connection signal="pressed" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid" to="." method="_on_costume_button_raid_pressed"]
-[connection signal="text_submitted" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/LineEdit" to="." method="_on_line_raid_edit_text_submitted"]
+[connection signal="text_submitted" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/HBoxContainer/LineEdit" to="." method="_on_line_raid_edit_text_submitted"]
+[connection signal="text_submitted" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonRaid/HBoxContainer/LineEdit2" to="." method="_on_line_raid_edit_2_text_submitted"]
 [connection signal="pressed" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub" to="." method="_on_costume_button_sub_pressed"]
-[connection signal="text_submitted" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/LineEdit" to="." method="_on_sub_line_edit_text_submitted"]
+[connection signal="text_submitted" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer/LineEdit" to="." method="_on_sub_line_edit_text_submitted"]
+[connection signal="text_submitted" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer/LineEdit2" to="." method="_on_line_sub_edit_2_text_submitted"]
 [connection signal="value_changed" from="BlinkSpeed/blinkSpeed" to="." method="_on_blink_speed_value_changed"]
 [connection signal="value_changed" from="BlinkChance/blinkChance" to="." method="_on_blink_chance_value_changed"]
