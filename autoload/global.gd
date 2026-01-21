@@ -203,6 +203,7 @@ func select(areas):
 	
 	spriteEdit.setImage()
 
+
 func linkSprite(sprite,newParent):
 	if sprite == newParent:
 		reparentMode = false
@@ -236,7 +237,6 @@ func linkSprite(sprite,newParent):
 	newParent.set_physics_process(true)
 
 func scrollSprites():
-	
 	if Input.is_action_pressed("control"):
 		return
 	
