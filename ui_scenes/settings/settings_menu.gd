@@ -51,6 +51,22 @@ func setvalues():
 		label.text = "costume " + str(tag) + " key: \"" + costumeKeys[tag-1] + "\""
 		tag += 1
 	
+	if Global.main.twitchCostumeKeys is Array:
+		Global.main.twitchCostumeKeys = {
+			"follow":{
+				"costumeNumber": "5",
+				"time": 15 
+			},
+			"raid": {
+				"costumeNumber": "10",
+				"time": 15 
+			},
+			"sub": {
+				"costumeNumber": "10",
+				"time": 15
+			}
+		}
+			
 	var twitchCostumeKeys: Dictionary = Global.main.twitchCostumeKeys
 	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label.text = "costume Follow: Costume " + twitchCostumeKeys["follow"]["costumeNumber"] + " for " + str(twitchCostumeKeys["follow"]["time"]) + "s"
 	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/HBoxContainer/LineEdit.text = twitchCostumeKeys["follow"]["costumeNumber"]
@@ -179,6 +195,7 @@ func costumeCustomPressed(label: Label, container: HBoxContainer, lineEdit: Line
 	lineEdit.text = ""
 	container.show()
 	lineEdit.grab_focus()
+
 
 func _on_costume_button_1_pressed():
 	var label = $CostumeInputs/ScrollContainer/VBoxContainer/costumeButton1/Label

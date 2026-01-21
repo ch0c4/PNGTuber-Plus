@@ -219,7 +219,6 @@ func read_save(path):
 	if path == "default":
 		return DefaultAvatarData.data
 	
-	
 	if OS.has_feature('web'):
 		var JSONstr = JavaScriptBridge.eval("window.localStorage.getItem('" + key + "');")
 		if (JSONstr):

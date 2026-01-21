@@ -206,7 +206,6 @@ func received_raid() -> void:
 		changeCostume(int(twitchCostumeKeys["raid"]["costumeNumber"]), twitchCostumeKeys["raid"]["time"])
 
 
-
 func received_sub() -> void:
 	Global.pushUpdate("Sub !!!")
 	if twitchCostumeKeys["sub"]["time"] <= 0:
@@ -301,11 +300,13 @@ func changeZoom():
 	
 	Global.pushUpdate("Set zoom to " + str(scaleOverall) + "%")
 	onWindowSizeChange()
-	
+
+
 #When the user speaks!
 func onSpeak():
 	if origin.get_parent().position.y > -16:
 		yVel = bounceSlider * -1
+
 
 #Swaps between edit mode and view mode
 func swapMode():
@@ -328,7 +329,8 @@ func swapMode():
 	controlPanel.visible = !editMode
 	lines.visible = editMode
 	spriteList.visible = editMode
-	
+
+
 #Adds sprite object to scene
 func add_image(path):
 	
