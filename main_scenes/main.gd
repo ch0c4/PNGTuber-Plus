@@ -38,7 +38,6 @@ var bounceGravity = 1000
 
 #Costumes
 var costume = 1
-var previous_costume = 1
 var bounceOnCostumeChange = false
 
 #Zooming
@@ -52,6 +51,7 @@ var fileSystemOpen = false
 #background input capture
 signal emptiedCapture
 signal pressedKey
+var defaultCostumeKey = "1"
 var costumeKeys = ["1","2","3","4","5","6","7","8","9","0"]
 var twitchCostumeKeys = {
 	"follow":{
@@ -117,6 +117,11 @@ func _ready():
 		else:
 			Saving.settings["gravity"] = 1000
 		
+		if Saving.settings.has("defaultCostumeKey"):
+			defaultCostumeKey = Saving.settings["defaultCostumeKey"]
+		else:
+			Saving.settings["defaultCostumeKey"] = defaultCostumeKey
+		
 		if Saving.settings.has("costumeKeys"):
 			costumeKeys = Saving.settings["costumeKeys"]
 		else:
@@ -126,7 +131,7 @@ func _ready():
 			twitchCostumeKeys = Saving.settings["twitchCostumeKeys"]
 		else:
 			Saving.settings["twitchCostumeKeys"] = twitchCostumeKeys
-		
+			
 		if Saving.settings.has("blinkSpeed"):
 			Global.blinkSpeed = Saving.settings["blinkSpeed"]
 		else:
@@ -147,7 +152,6 @@ func _ready():
 	RenderingServer.set_default_clear_color(Global.backgroundColor)
 	swapMode()
 	settingsMenu.setvalues()
-	previous_costume = 1
 	changeCostume(1)
 	
 	var s = get_viewport().get_visible_rect().size
@@ -579,9 +583,8 @@ func changeCostumeStreamDeck(id: String):
 
 
 func changeCostume(newCostume, timeout = null):
+	newCostume = int(newCostume)
 	timer = null
-	if timeout == null:
-		previous_costume = costume
 	costume = newCostume
 	Global.heldSprite = null
 	var nodes = get_tree().get_nodes_in_group("saved")
@@ -601,7 +604,7 @@ func changeCostume(newCostume, timeout = null):
 	Global.pushUpdate("Change costume: " + str(newCostume))
 	if timeout != null:
 		timer = await get_tree().create_timer(timeout).timeout
-		changeCostume(previous_costume)
+		changeCostume(defaultCostumeKey)
 
 
 func moveSpriteMenu(delta):

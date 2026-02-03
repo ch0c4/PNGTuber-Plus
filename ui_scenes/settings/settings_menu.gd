@@ -66,6 +66,9 @@ func setvalues():
 				"time": 15
 			}
 		}
+	
+	if Global.main.defaultCostumeKey:
+		$CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume/Label.text = "costume default: \"" + Global.main.defaultCostumeKey + "\""
 			
 	var twitchCostumeKeys: Dictionary = Global.main.twitchCostumeKeys
 	$CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonFollow/Label.text = "costume Follow: Costume " + twitchCostumeKeys["follow"]["costumeNumber"] + " for " + str(twitchCostumeKeys["follow"]["time"]) + "s"
@@ -467,3 +470,51 @@ func check_update_costume_number(value: int) -> bool:
 	if value < 1 or value > 10:
 		return false
 	return true
+
+
+func _on_save_costume_button_pressed() -> void:
+	var path = Saving.settingsPath
+	Saving.write_settings(path)
+
+
+func _on_default_costume_pressed() -> void:
+	var delete_button = $CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume/deleteDefault
+	var label = $CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume/Label
+	var container = $CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume/DefaultCostumeContainer
+	var line_edit = $CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume/DefaultCostumeContainer/DefaultCostumeLineEdit
+	
+	line_edit.text = ""
+	delete_button.hide()
+	label.hide()
+	container.show()
+
+
+func _on_delete_default_pressed() -> void:
+	var label = $CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume/Label
+	
+	label.text = "costume default: \"1\""
+	Global.main.defaultCostumeKey = "1"
+	Saving.settings.defaultCostumeKey = "1"
+	Global.pushUpdate("Default costume set to 1")
+
+
+func _on_default_costume_line_edit_text_submitted(new_text: String) -> void:
+	var delete_button = $CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume/deleteDefault
+	var label = $CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume/Label
+	var container = $CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume/DefaultCostumeContainer
+	
+	if ["1","2","3","4","5","6","7","8","9","10"].find(new_text.strip_edges()) == -1:
+		Global.pushUpdate("Invalide costume " + new_text.strip_edges())
+		container.hide()
+		delete_button.show()
+		label.show()
+		return
+	
+	label.text = "costume default: \"" + new_text.strip_edges() + "\""
+	Global.main.defaultCostumeKey = new_text.strip_edges()
+	Saving.settings.defaultCostumeKey = new_text.strip_edges()
+	Global.pushUpdate("Default costume set to " + new_text.strip_edges())
+	
+	container.hide()
+	delete_button.show()
+	label.show()

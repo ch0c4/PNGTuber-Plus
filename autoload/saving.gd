@@ -174,6 +174,7 @@ var settings = {
 	"secondsToMicReset":180,
 	"backgroundColor":var_to_str(Color(0.0,0.0,0.0,0.0)),
 	"filtering":false,
+	"defaultCostumeKey": "1",
 	"costumeKeys":["1","2","3","4","5","6","7","8","9","0"],
 	"twitchCostumeKeys": {
 		"follow":{
@@ -244,6 +245,7 @@ func write_save(path):
 
 
 func write_settings(path):
+	Global.pushUpdate("Save settings on " + path)
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	file.store_line(JSON.stringify(settings))
 	file.close()

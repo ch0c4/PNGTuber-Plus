@@ -14449,6 +14449,70 @@ horizontal_scroll_mode = 0
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="defaultCostume" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 37.125)
+layout_mode = 2
+size_flags_horizontal = 3
+flat = true
+
+[node name="rect" type="NinePatchRect" parent="CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+texture = ExtResource("1_ylauk")
+region_rect = Rect2(0, 0, 48, 48)
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Label" type="Label" parent="CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 4.0
+offset_right = 277.0
+offset_bottom = 30.0
+text = "costume default: \"1\""
+vertical_alignment = 1
+
+[node name="deleteDefault" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume"]
+layout_mode = 0
+offset_left = 286.0
+offset_top = 4.0
+offset_right = 297.0
+offset_bottom = 15.0
+flat = true
+
+[node name="DeleteHotkey" type="Sprite2D" parent="CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume/deleteDefault"]
+position = Vector2(-2, -2)
+texture = ExtResource("9_lywmf")
+centered = false
+
+[node name="DefaultCostumeContainer" type="HBoxContainer" parent="CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume/DefaultCostumeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.6
+text = "Choose Costume:"
+horizontal_alignment = 1
+
+[node name="DefaultCostumeLineEdit" type="LineEdit" parent="CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume/DefaultCostumeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.4
+
 [node name="costumeButton1" type="Button" parent="CostumeInputs/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 37.125)
 layout_mode = 2
@@ -15066,12 +15130,19 @@ alignment = 2
 layout_mode = 2
 text = "s"
 
-[node name="Label" type="Label" parent="CostumeInputs"]
+[node name="CostumeHotKeysLabel" type="Label" parent="CostumeInputs"]
 offset_left = -179.0
 offset_top = -109.0
 offset_right = -41.0
 offset_bottom = -75.0
 text = "costume hotkeys"
+
+[node name="SaveCostumeButton" type="Button" parent="CostumeInputs"]
+offset_left = -33.0
+offset_top = -114.0
+offset_right = 36.0
+offset_bottom = -83.0
+text = "save"
 
 [node name="BlinkSpeed" type="Node2D" parent="."]
 position = Vector2(17, 307)
@@ -15131,6 +15202,9 @@ scrollable = false
 [connection signal="value_changed" from="BounceForce/bounceForce" to="." method="_on_bounce_force_value_changed"]
 [connection signal="value_changed" from="BounceGravity/bounceGravity" to="." method="_on_bounce_gravity_value_changed"]
 [connection signal="text_submitted" from="TwitchInput/rect/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="pressed" from="CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume" to="." method="_on_default_costume_pressed"]
+[connection signal="pressed" from="CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume/deleteDefault" to="." method="_on_delete_default_pressed"]
+[connection signal="text_submitted" from="CostumeInputs/ScrollContainer/VBoxContainer/defaultCostume/DefaultCostumeContainer/DefaultCostumeLineEdit" to="." method="_on_default_costume_line_edit_text_submitted"]
 [connection signal="pressed" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton1" to="." method="_on_costume_button_1_pressed"]
 [connection signal="pressed" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton1/delete1" to="." method="_on_delete_1_pressed"]
 [connection signal="pressed" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButton2" to="." method="_on_costume_button_2_pressed"]
@@ -15160,5 +15234,6 @@ scrollable = false
 [connection signal="pressed" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub" to="." method="_on_costume_button_sub_pressed"]
 [connection signal="text_submitted" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer/LineEdit" to="." method="_on_sub_line_edit_text_submitted"]
 [connection signal="text_submitted" from="CostumeInputs/ScrollContainer/VBoxContainer/costumeButtonSub/HBoxContainer/LineEdit2" to="." method="_on_line_sub_edit_2_text_submitted"]
+[connection signal="pressed" from="CostumeInputs/SaveCostumeButton" to="." method="_on_save_costume_button_pressed"]
 [connection signal="value_changed" from="BlinkSpeed/blinkSpeed" to="." method="_on_blink_speed_value_changed"]
 [connection signal="value_changed" from="BlinkChance/blinkChance" to="." method="_on_blink_chance_value_changed"]
